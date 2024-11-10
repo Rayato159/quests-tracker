@@ -7,7 +7,7 @@ async fn main() {
         .with_max_level(tracing::Level::DEBUG)
         .init();
 
-    let donenvy_env = match config_loader::load() {
+    let dotenvy_env = match config_loader::load() {
         Ok(env) => env,
         Err(e) => {
             error!("Failed to load ENV: {}", e);
