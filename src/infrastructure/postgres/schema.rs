@@ -25,8 +25,7 @@ diesel::table! {
 }
 
 diesel::table! {
-    quest_adventure_junction (id) {
-        id -> Int4,
+    quest_adventure_junction (quest_id, adventurer_id) {
         quest_id -> Int4,
         adventurer_id -> Int4,
         joined_at -> Nullable<Timestamp>,

@@ -1,4 +1,3 @@
--- Your SQL goes here
 CREATE TABLE quests (
     id SERIAL PRIMARY KEY,
     "name" VARCHAR(255) NOT NULL,
@@ -26,10 +25,10 @@ CREATE TABLE guild_commanders (
 );
 
 CREATE TABLE quest_adventure_junction (
-    id SERIAL PRIMARY KEY,
     quest_id INTEGER NOT NULL,
     adventurer_id INTEGER NOT NULL,
-    joined_at TIMESTAMP DEFAULT now()
+    joined_at TIMESTAMP DEFAULT now(),
+    PRIMARY KEY (quest_id, adventurer_id)
 );
 
 ALTER TABLE
