@@ -1,11 +1,14 @@
 use anyhow::Result;
 
-use super::config_model::DotEnvyConfig;
+use super::{config_model::DotEnvyConfig, stage::Stage};
 
 pub fn load() -> Result<DotEnvyConfig> {
     dotenvy::dotenv().ok();
 
-    let stage = std::env::var("STAGE").expect("STAGE is invalid");
+    let stage = match std::env::var("STAGE") {
+        Ok(stage) => stage,
+        Err(_) => Stage::default().to_string(),
+    };
     let stage = super::stage::Stage::try_from(&stage)?;
 
     let server = super::config_model::Server {

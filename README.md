@@ -80,6 +80,17 @@ Ready to level up? Follow these steps:
 
 Boom, you're in! 🎉
 
+## 📝 ENV Example
+```text
+STAGE=local
+
+SERVER_PORT=8080
+SERVER_BODY_LIMIT=10 # MB
+SERVER_TIMEOUT=90 # seconds
+
+DATABASE_URL=postgres://postgres:123456@localhost/quests_tracker_db
+```
+
 ## ⚡️ Usage
 
 - **Create a Quest**: Start a new adventure for your crew.
