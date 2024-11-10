@@ -1,4 +1,4 @@
-use quests_tracker::config::config_loader;
+use quests_tracker::{config::config_loader, infrastructure::postgres::postgres_connector};
 use tracing::{error, info};
 
 #[tokio::main]

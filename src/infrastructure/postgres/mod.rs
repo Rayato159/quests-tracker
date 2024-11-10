@@ -1,3 +1,3 @@
-pub mod postgres_connection;
+pub mod postgres_connector;
 pub mod repositories;
 pub mod schema;
