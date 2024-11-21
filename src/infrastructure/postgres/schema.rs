@@ -25,10 +25,9 @@ diesel::table! {
 }
 
 diesel::table! {
-    quest_adventure_junction (quest_id, adventurer_id) {
+    quest_adventurer_junction (quest_id, adventurer_id) {
         quest_id -> Int4,
         adventurer_id -> Int4,
-        joined_at -> Nullable<Timestamp>,
     }
 }
 
@@ -46,13 +45,11 @@ diesel::table! {
     }
 }
 
-diesel::joinable!(quest_adventure_junction -> adventurers (adventurer_id));
-diesel::joinable!(quest_adventure_junction -> quests (quest_id));
 diesel::joinable!(quests -> guild_commanders (guild_commander_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
     adventurers,
     guild_commanders,
-    quest_adventure_junction,
+    quest_adventurer_junction,
     quests,
 );
