@@ -37,7 +37,6 @@ quests_tracker/
 │   ├───domain/
 │   │   ├───entities/
 │   │   ├───repositories/
-│   │   ├───services/
 │   │   └───value_objects/
 │   └───infrastructure
 │       ├───axum_http/
