@@ -27,22 +27,16 @@ where
             quest_viewing_repository,
         }
     }
-}
 
-impl<T1, T2> QuestOpsUseCase<T1, T2>
-where
-    T1: QuestOpsRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
-{
-    async fn add(&self, insert_quest_model: InsertQuestModel) -> Result<()> {
+    pub async fn add(&self, insert_quest_model: InsertQuestModel) -> Result<()> {
         panic!("Not implemented");
     }
 
-    async fn edit(&self, update_quest_model: UpdateQuestModel) -> Result<()> {
+    pub async fn edit(&self, update_quest_model: UpdateQuestModel) -> Result<()> {
         panic!("Not implemented");
     }
 
-    async fn remove(&self, quest_id: i32) -> Result<()> {
+    pub async fn remove(&self, quest_id: i32) -> Result<()> {
         panic!("Not implemented");
     }
 }

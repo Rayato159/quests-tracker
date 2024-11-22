@@ -23,13 +23,8 @@ where
             guild_commanders_repository,
         }
     }
-}
 
-impl<T> GuildCommandersUseCase<T>
-where
-    T: GuildCommandersRepository + Send + Sync,
-{
-    async fn register(
+    pub async fn register(
         &self,
         insert_guild_commander_model: InsertGuildCommanderModel,
     ) -> Result<()> {

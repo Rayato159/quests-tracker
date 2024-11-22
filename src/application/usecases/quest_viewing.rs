@@ -23,17 +23,12 @@ where
             quest_viewing_repository,
         }
     }
-}
 
-impl<T> QuestViewingUseCase<T>
-where
-    T: QuestViewingRepository + Send + Sync,
-{
-    async fn view_details(&self, quest_id: i32) -> Result<QuestModel> {
+    pub async fn view_details(&self, quest_id: i32) -> Result<QuestModel> {
         panic!("Not implemented");
     }
 
-    async fn board_checking(&self, filter: &BoardCheckingFilter) -> Result<Vec<QuestModel>> {
+    pub async fn board_checking(&self, filter: &BoardCheckingFilter) -> Result<Vec<QuestModel>> {
         panic!("Not implemented");
     }
 }

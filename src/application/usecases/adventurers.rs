@@ -23,13 +23,8 @@ where
             adventurers_repository,
         }
     }
-}
 
-impl<T> AdventurersUseCase<T>
-where
-    T: AdventurersRepository + Send + Sync,
-{
-    async fn register(&self, insert_adventurer_model: InsertAdventurerModel) -> Result<()> {
+    pub async fn register(&self, insert_adventurer_model: InsertAdventurerModel) -> Result<()> {
         panic!("Not implemented");
     }
 }
