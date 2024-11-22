@@ -1,10 +1,8 @@
-use std::sync::Arc;
-
 use anyhow::Result;
 use axum::async_trait;
 use mockall::automock;
 
-pub type JourneyLedgerRepositorySquad = Arc<dyn JourneyLedgerRepository + Send + Sync>;
+pub type JourneyLedgerRepositorySquad = dyn JourneyLedgerRepository + Send + Sync;
 
 #[async_trait]
 #[automock]

@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use anyhow::Result;
 use axum::async_trait;
 use mockall::automock;
@@ -8,7 +6,7 @@ use crate::domain::{
     entities::quests::QuestEntity, value_objects::board_checking_filter::BoardCheckingFilter,
 };
 
-pub type QuestViewingRepositorySquad = Arc<dyn QuestViewingRepository + Send + Sync>;
+pub type QuestViewingRepositorySquad = dyn QuestViewingRepository + Send + Sync;
 
 #[async_trait]
 #[automock]

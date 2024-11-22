@@ -1,15 +1,17 @@
+use std::sync::Arc;
+
 use anyhow::Result;
 
 use crate::domain::repositories::{
     journey_ledger::JourneyLedgerRepositorySquad, quest_viewing::QuestViewingRepositorySquad,
 };
 
-pub struct JourneyLedgerRepository {
-    journey_ledger_repository: JourneyLedgerRepositorySquad,
-    quest_viewing_repository: QuestViewingRepositorySquad,
+pub struct JourneyLedgerUseCase {
+    journey_ledger_repository: Arc<JourneyLedgerRepositorySquad>,
+    quest_viewing_repository: Arc<QuestViewingRepositorySquad>,
 }
 
-impl JourneyLedgerRepository {
+impl JourneyLedgerUseCase {
     async fn in_journey(&self, quest_id: i32) -> Result<()> {
         panic!("Not implemented");
     }

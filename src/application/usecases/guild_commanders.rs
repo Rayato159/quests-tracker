@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use anyhow::Result;
 
 use crate::domain::{
@@ -5,11 +7,11 @@ use crate::domain::{
     value_objects::guild_commander_model::InsertGuildCommanderModel,
 };
 
-pub struct GuildCommandersRepository {
-    guild_commanders_repository: GuildCommandersRepositorySquad,
+pub struct GuildCommandersUseCase {
+    guild_commanders_repository: Arc<GuildCommandersRepositorySquad>,
 }
 
-impl GuildCommandersRepository {
+impl GuildCommandersUseCase {
     async fn register(
         &self,
         insert_guild_commander_model: InsertGuildCommanderModel,

@@ -1,15 +1,17 @@
+use std::sync::Arc;
+
 use anyhow::Result;
 
 use crate::domain::{
-    repositories::adventurers::AdvanturersRepositorySquad,
+    repositories::adventurers::AdventurersRepositorySquad,
     value_objects::adventurer_model::InsertAdventurerModel,
 };
 
-pub struct AdvanturersRepository {
-    advanturers_repository: AdvanturersRepositorySquad,
+pub struct AdventurersUseCase {
+    adventurers_repository: Arc<AdventurersRepositorySquad>,
 }
 
-impl AdvanturersRepository {
+impl AdventurersUseCase {
     async fn register(&self, insert_adventurer_model: InsertAdventurerModel) -> Result<()> {
         panic!("Not implemented");
     }

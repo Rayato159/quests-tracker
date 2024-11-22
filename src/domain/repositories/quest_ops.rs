@@ -1,12 +1,10 @@
-use std::sync::Arc;
-
 use anyhow::Result;
 use axum::async_trait;
 use mockall::automock;
 
 use crate::domain::entities::quests::{InsertQuestEntity, UpdateQuestEntity};
 
-pub type QuestOpsRepositorySquad = Arc<dyn QuestOpsRepository + Send + Sync>;
+pub type QuestOpsRepositorySquad = dyn QuestOpsRepository + Send + Sync;
 
 #[async_trait]
 #[automock]

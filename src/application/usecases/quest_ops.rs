@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use anyhow::Result;
 
 use crate::domain::{
@@ -7,12 +9,12 @@ use crate::domain::{
     value_objects::quest_model::{InsertQuestModel, UpdateQuestModel},
 };
 
-pub struct QuestOpsRepository {
-    quest_ops_repository: QuestOpsRepositorySquad,
-    quest_viewing_repository: QuestViewingRepositorySquad,
+pub struct QuestOpsUseCase {
+    quest_ops_repository: Arc<QuestOpsRepositorySquad>,
+    quest_viewing_repository: Arc<QuestViewingRepositorySquad>,
 }
 
-impl QuestOpsRepository {
+impl QuestOpsUseCase {
     async fn add(&self, insert_quest_model: InsertQuestModel) -> Result<()> {
         panic!("Not implemented");
     }

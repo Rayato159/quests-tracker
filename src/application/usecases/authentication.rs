@@ -1,18 +1,20 @@
+use std::sync::Arc;
+
 use anyhow::Result;
 
 use crate::domain::{
     repositories::{
-        adventurers::AdvanturersRepositorySquad, guild_commanders::GuildCommandersRepositorySquad,
+        adventurers::AdventurersRepositorySquad, guild_commanders::GuildCommandersRepositorySquad,
     },
     value_objects::passport::Passport,
 };
 
-pub struct AuthenticationRepository {
-    advanturers_repository: AdvanturersRepositorySquad,
-    guild_commanders_repository: GuildCommandersRepositorySquad,
+pub struct AuthenticationUseCase {
+    adventurers_repository: Arc<AdventurersRepositorySquad>,
+    guild_commanders_repository: Arc<GuildCommandersRepositorySquad>,
 }
 
-impl AuthenticationRepository {
+impl AuthenticationUseCase {
     async fn login(&self, username: &str) -> Result<Passport> {
         panic!("Not implemented");
     }
