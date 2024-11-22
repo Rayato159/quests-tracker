@@ -12,12 +12,13 @@ use tower_http::{
 use tracing::info;
 
 use crate::{
-    config::config_model::DotEnvyConfig, infrastructure::postgres::postgres_connector::PgPoolSquad,
+    config::config_model::DotEnvyConfig,
+    infrastructure::{axum_http::routers, postgres::postgres_connector::PgPoolSquad},
 };
 
 use super::default_routers;
 
-pub async fn start(config: Arc<DotEnvyConfig>, db_pool: Arc<PgPoolSquad>) -> Result<()> {
+pub async fn start(config: &DotEnvyConfig, db_pool: Arc<PgPoolSquad>) -> Result<()> {
     let app = Router::new()
         .layer(
             CorsLayer::new()
@@ -27,7 +28,31 @@ pub async fn start(config: Arc<DotEnvyConfig>, db_pool: Arc<PgPoolSquad>) -> Res
         .layer(RequestBodyLimitLayer::new(
             (config.server.body_limit * 1024 * 1024).try_into()?,
         ))
-        .route("/health_check", get(default_routers::health_check))
+        .route("/health-check", get(default_routers::health_check))
+        .nest(
+            "/quest-ops",
+            routers::quest_ops::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/quest-viewing",
+            routers::quest_viewing::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/crew-switchboard",
+            routers::crew_switchboard::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/journey-ledger",
+            routers::journey_ledger::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/adventures",
+            routers::adventures::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/guild-commanders",
+            routers::guild_commanders::routes(Arc::clone(&db_pool)),
+        )
         .layer(TraceLayer::new_for_http())
         .layer(TimeoutLayer::new(Duration::from_secs(
             config.server.timeout,
