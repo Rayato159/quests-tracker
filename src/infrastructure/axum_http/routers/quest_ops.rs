@@ -51,7 +51,7 @@ where
             let response = format!("Add quest success with id: {}", user_id);
             (StatusCode::CREATED, response).into_response()
         }
-        Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Add quest error").into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
 
@@ -69,7 +69,7 @@ where
             let response = format!("Edit quest success with id: {}", quest_id);
             (StatusCode::OK, response).into_response()
         }
-        Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Edit quest error").into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
 
@@ -86,6 +86,6 @@ where
             let response = format!("Remove quest success with id: {}", id);
             (StatusCode::OK, response).into_response()
         }
-        Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Remove quest error").into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }

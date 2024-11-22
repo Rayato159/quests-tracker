@@ -33,9 +33,6 @@ where
     }
 
     pub async fn add(&self, add_quest_model: AddQuestModel) -> Result<i32> {
-        // Check if adventurer exists
-
-        // Add quest
         let insert_quset_entity = AddQuestEntity {
             name: add_quest_model.name,
             description: add_quest_model.description,
@@ -52,6 +49,16 @@ where
 
     pub async fn edit(&self, quest_id: i32, edit_quest_model: EditQuestModel) -> Result<i32> {
         // Check if adventurer exists
+        let adventurers_count = self
+            .quest_viewing_repository
+            .adventurers_counting_by_quest_id(quest_id)
+            .await?;
+
+        if adventurers_count > 0 {
+            return Err(anyhow::anyhow!(
+                "Quest has been taken by adventurers for now!!!"
+            ));
+        }
 
         // Update quest
         let edit_quest_entity = EditQuestEntity {
@@ -70,6 +77,18 @@ where
     }
 
     pub async fn remove(&self, quest_id: i32) -> Result<()> {
+        // Check if adventurer exists
+        let adventurers_count = self
+            .quest_viewing_repository
+            .adventurers_counting_by_quest_id(quest_id)
+            .await?;
+
+        if adventurers_count > 0 {
+            return Err(anyhow::anyhow!(
+                "Quest has been taken by adventurers for now!!!"
+            ));
+        }
+
         self.quest_ops_repository.remove(quest_id).await?;
 
         Ok(())
