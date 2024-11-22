@@ -25,7 +25,25 @@ where
     }
 
     pub async fn view_details(&self, quest_id: i32) -> Result<QuestModel> {
-        panic!("Not implemented");
+        let quest = self.quest_viewing_repository.view_details(quest_id).await?;
+
+        let adventurers_count = self
+            .quest_viewing_repository
+            .adventurers_counting_by_quest_id(quest.id)
+            .await?;
+
+        let quest_model = QuestModel {
+            id: quest.id,
+            name: quest.name,
+            description: quest.description,
+            status: quest.status,
+            guild_commander_id: quest.guild_commander_id,
+            adventurer_count: adventurers_count,
+            created_at: quest.created_at,
+            updated_at: quest.updated_at,
+        };
+
+        Ok(quest_model)
     }
 
     pub async fn board_checking(&self, filter: &BoardCheckingFilter) -> Result<Vec<QuestModel>> {
