@@ -1,10 +1,22 @@
+use std::sync::Arc;
+
 use anyhow::Result;
+use axum::async_trait;
 
-use crate::domain::entities::guild_commanders::InsertGuildCommanderEntity;
+use crate::{
+    domain::{
+        entities::guild_commanders::InsertGuildCommanderEntity,
+        repositories::guild_commanders::GuildCommandersRepository,
+    },
+    infrastructure::postgres::postgres_connector::PgPoolSquad,
+};
 
-pub struct GuildCommandersPostgres;
+pub struct GuildCommandersPostgres {
+    db_pool: Arc<PgPoolSquad>,
+}
 
-impl GuildCommandersPostgres {
+#[async_trait]
+impl GuildCommandersRepository for GuildCommandersPostgres {
     async fn register(
         &self,
         insert_guild_commander_entity: InsertGuildCommanderEntity,

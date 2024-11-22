@@ -18,6 +18,17 @@ impl<T> AdventurersUseCase<T>
 where
     T: AdventurersRepository + Send + Sync,
 {
+    pub fn new(adventurers_repository: Arc<T>) -> Self {
+        Self {
+            adventurers_repository,
+        }
+    }
+}
+
+impl<T> AdventurersUseCase<T>
+where
+    T: AdventurersRepository + Send + Sync,
+{
     async fn register(&self, insert_adventurer_model: InsertAdventurerModel) -> Result<()> {
         panic!("Not implemented");
     }

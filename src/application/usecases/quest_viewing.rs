@@ -18,6 +18,17 @@ impl<T> QuestViewingUseCase<T>
 where
     T: QuestViewingRepository + Send + Sync,
 {
+    pub fn new(quest_viewing_repository: Arc<T>) -> Self {
+        Self {
+            quest_viewing_repository,
+        }
+    }
+}
+
+impl<T> QuestViewingUseCase<T>
+where
+    T: QuestViewingRepository + Send + Sync,
+{
     async fn view_details(&self, quest_id: i32) -> Result<QuestModel> {
         panic!("Not implemented");
     }

@@ -1,10 +1,22 @@
+use std::sync::Arc;
+
 use anyhow::Result;
+use axum::async_trait;
 
-use crate::domain::entities::quests::{InsertQuestEntity, UpdateQuestEntity};
+use crate::{
+    domain::{
+        entities::quests::{InsertQuestEntity, UpdateQuestEntity},
+        repositories::quest_ops::QuestOpsRepository,
+    },
+    infrastructure::postgres::postgres_connector::PgPoolSquad,
+};
 
-pub struct QuestOpsPostgres;
+pub struct QuestOpsPostgres {
+    db_pool: Arc<PgPoolSquad>,
+}
 
-impl QuestOpsPostgres {
+#[async_trait]
+impl QuestOpsRepository for QuestOpsPostgres {
     async fn add(&self, insert_quest_entity: InsertQuestEntity) -> Result<()> {
         panic!("Not implemented")
     }
