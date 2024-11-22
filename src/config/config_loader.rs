@@ -1,4 +1,5 @@
 use anyhow::Result;
+use tracing::debug;
 
 use super::{config_model::DotEnvyConfig, stage::Stage};
 
@@ -9,7 +10,10 @@ pub fn load() -> Result<DotEnvyConfig> {
         Ok(stage) => stage,
         Err(_) => Stage::default().to_string(),
     };
-    let stage = super::stage::Stage::try_from(&stage)?;
+
+    debug!("Stage: {}", stage);
+
+    let stage = Stage::try_from(&stage)?;
 
     let server = super::config_model::Server {
         port: std::env::var("SERVER_PORT")
