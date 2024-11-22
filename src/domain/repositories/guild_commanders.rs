@@ -9,6 +9,6 @@ use crate::domain::entities::guild_commanders::InsertGuildCommanderEntity;
 pub trait GuildCommandersRepository {
     async fn register(
         &self,
-        insert_guild_commander_entity: InsertGuildCommanderEntity,
+        register_guild_commander_entity: InsertGuildCommanderEntity,
     ) -> Result<()>;
 }

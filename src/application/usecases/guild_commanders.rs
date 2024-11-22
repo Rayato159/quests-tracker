@@ -26,7 +26,7 @@ where
 
     pub async fn register(
         &self,
-        insert_guild_commander_model: InsertGuildCommanderModel,
+        register_guild_commander_model: InsertGuildCommanderModel,
     ) -> Result<()> {
         panic!("Not implemented");
     }

@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct InsertGuildCommanderModel {
-    username: String,
-    password: String,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+    pub username: String,
+    pub password: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }

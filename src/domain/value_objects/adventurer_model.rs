@@ -2,9 +2,9 @@ use chrono::NaiveDateTime;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct InsertAdventurerModel {
-    username: String,
-    password: String,
-    created_at: NaiveDateTime,
-    updated_at: NaiveDateTime,
+pub struct RegisterAdventurerModel {
+    pub username: String,
+    pub password: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }

@@ -22,7 +22,13 @@ pub async fn start(config: &DotEnvyConfig, db_pool: Arc<PgPoolSquad>) -> Result<
     let app = Router::new()
         .layer(
             CorsLayer::new()
-                .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
+                .allow_methods([
+                    Method::GET,
+                    Method::POST,
+                    Method::PUT,
+                    Method::PATCH,
+                    Method::DELETE,
+                ])
                 .allow_origin(Any),
         )
         .layer(RequestBodyLimitLayer::new(

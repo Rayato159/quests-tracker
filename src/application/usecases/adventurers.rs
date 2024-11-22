@@ -4,7 +4,7 @@ use anyhow::Result;
 
 use crate::domain::{
     repositories::adventurers::AdventurersRepository,
-    value_objects::adventurer_model::InsertAdventurerModel,
+    value_objects::adventurer_model::RegisterAdventurerModel,
 };
 
 pub struct AdventurersUseCase<T>
@@ -24,7 +24,7 @@ where
         }
     }
 
-    pub async fn register(&self, insert_adventurer_model: InsertAdventurerModel) -> Result<()> {
+    pub async fn register(&self, register_adventurer_model: RegisterAdventurerModel) -> Result<()> {
         panic!("Not implemented");
     }
 }
