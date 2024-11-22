@@ -18,9 +18,9 @@ impl<T> AdventurersUseCase<T>
 where
     T: AdventurersRepository + Send + Sync,
 {
-    pub fn new(adventurers_repository: T) -> Self {
+    pub fn new(adventurers_repository: Arc<T>) -> Self {
         Self {
-            adventurers_repository: Arc::new(adventurers_repository),
+            adventurers_repository,
         }
     }
 }

@@ -21,6 +21,19 @@ where
     T1: QuestOpsRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
+    pub fn new(quest_ops_repository: Arc<T1>, quest_viewing_repository: Arc<T2>) -> Self {
+        Self {
+            quest_ops_repository,
+            quest_viewing_repository,
+        }
+    }
+}
+
+impl<T1, T2> QuestOpsUseCase<T1, T2>
+where
+    T1: QuestOpsRepository + Send + Sync,
+    T2: QuestViewingRepository + Send + Sync,
+{
     async fn add(&self, insert_quest_model: InsertQuestModel) -> Result<()> {
         panic!("Not implemented");
     }

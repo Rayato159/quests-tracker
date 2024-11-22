@@ -1,12 +1,22 @@
-use anyhow::Result;
+use std::sync::Arc;
 
-use crate::domain::{
-    entities::quests::QuestEntity, value_objects::board_checking_filter::BoardCheckingFilter,
+use anyhow::Result;
+use axum::async_trait;
+
+use crate::{
+    domain::{
+        entities::quests::QuestEntity, repositories::quest_viewing::QuestViewingRepository,
+        value_objects::board_checking_filter::BoardCheckingFilter,
+    },
+    infrastructure::postgres::postgres_connector::PgPoolSquad,
 };
 
-pub struct QuestViewingPostgres;
+pub struct QuestViewingPostgres {
+    db_pool: Arc<PgPoolSquad>,
+}
 
-impl QuestViewingPostgres {
+#[async_trait]
+impl QuestViewingRepository for QuestViewingPostgres {
     async fn view_details(&self, quest_id: i32) -> Result<QuestEntity> {
         panic!("Not implemented");
     }

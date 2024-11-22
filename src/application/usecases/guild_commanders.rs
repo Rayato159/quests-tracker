@@ -18,6 +18,17 @@ impl<T> GuildCommandersUseCase<T>
 where
     T: GuildCommandersRepository + Send + Sync,
 {
+    pub fn new(guild_commanders_repository: Arc<T>) -> Self {
+        Self {
+            guild_commanders_repository,
+        }
+    }
+}
+
+impl<T> GuildCommandersUseCase<T>
+where
+    T: GuildCommandersRepository + Send + Sync,
+{
     async fn register(
         &self,
         insert_guild_commander_model: InsertGuildCommanderModel,

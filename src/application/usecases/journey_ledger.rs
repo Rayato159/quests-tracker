@@ -20,6 +20,19 @@ where
     T1: JourneyLedgerRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
+    pub fn new(journey_ledger_repository: Arc<T1>, quest_viewing_repository: Arc<T2>) -> Self {
+        Self {
+            journey_ledger_repository,
+            quest_viewing_repository,
+        }
+    }
+}
+
+impl<T1, T2> JourneyLedgerUseCase<T1, T2>
+where
+    T1: JourneyLedgerRepository + Send + Sync,
+    T2: QuestViewingRepository + Send + Sync,
+{
     async fn in_journey(&self, quest_id: i32) -> Result<()> {
         panic!("Not implemented");
     }

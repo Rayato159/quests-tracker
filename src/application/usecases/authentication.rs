@@ -23,6 +23,19 @@ where
     T1: AdventurersRepository + Send + Sync,
     T2: GuildCommandersRepository + Send + Sync,
 {
+    pub fn new(adventurers_repository: Arc<T1>, guild_commanders_repository: Arc<T2>) -> Self {
+        Self {
+            adventurers_repository,
+            guild_commanders_repository,
+        }
+    }
+}
+
+impl<T1, T2> AuthenticationUseCase<T1, T2>
+where
+    T1: AdventurersRepository + Send + Sync,
+    T2: GuildCommandersRepository + Send + Sync,
+{
     async fn login(&self, username: &str) -> Result<Passport> {
         panic!("Not implemented");
     }

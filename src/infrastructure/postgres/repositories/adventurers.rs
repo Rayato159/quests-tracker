@@ -1,12 +1,28 @@
 use std::sync::Arc;
 
-use anyhow::Result;
+use std::sync::Arc;
 
+use anyhow::Result;
+use axum::async_trait;
+
+use crate::{
+    domain::{
+        entities::adventurers::InsertAdventurerEntity,
+        repositories::adventurers::AdventurersRepository,
+    },
+    infrastructure::postgres::postgres_connector::PgPoolSquad,
+};
 use crate::{
     domain::entities::adventurers::InsertAdventurerEntity,
     infrastructure::postgres::postgres_connector::PgPoolSquad,
 };
 
+pub struct AdventurersPostgres {
+    db_pool: Arc<PgPoolSquad>,
+}
+
+#[async_trait]
+impl AdventurersRepository for AdventurersPostgres {
 pub struct AdventurersPostgres {
     db_pool: Arc<PgPoolSquad>,
 }

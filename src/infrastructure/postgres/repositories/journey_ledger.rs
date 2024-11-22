@@ -1,8 +1,19 @@
+use std::sync::Arc;
+
 use anyhow::Result;
+use axum::async_trait;
 
-pub struct JourneyLedgerPostgres;
+use crate::{
+    domain::repositories::journey_ledger::JourneyLedgerRepository,
+    infrastructure::postgres::postgres_connector::PgPoolSquad,
+};
 
-impl JourneyLedgerPostgres {
+pub struct JourneyLedgerPostgres {
+    db_pool: Arc<PgPoolSquad>,
+}
+
+#[async_trait]
+impl JourneyLedgerRepository for JourneyLedgerPostgres {
     async fn in_journey(&self, quest_id: i32) -> Result<()> {
         panic!("Not implemented");
     }
