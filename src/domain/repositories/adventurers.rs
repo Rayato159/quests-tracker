@@ -4,8 +4,6 @@ use mockall::automock;
 
 use crate::domain::entities::adventurers::InsertAdventurerEntity;
 
-pub type AdventurersRepositorySquad = dyn AdventurersRepository + Send + Sync;
-
 #[async_trait]
 #[automock]
 pub trait AdventurersRepository {

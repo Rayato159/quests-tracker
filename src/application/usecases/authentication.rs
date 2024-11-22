@@ -4,17 +4,25 @@ use anyhow::Result;
 
 use crate::domain::{
     repositories::{
-        adventurers::AdventurersRepositorySquad, guild_commanders::GuildCommandersRepositorySquad,
+        adventurers::AdventurersRepository, guild_commanders::GuildCommandersRepository,
     },
     value_objects::passport::Passport,
 };
 
-pub struct AuthenticationUseCase {
-    adventurers_repository: Arc<AdventurersRepositorySquad>,
-    guild_commanders_repository: Arc<GuildCommandersRepositorySquad>,
+pub struct AuthenticationUseCase<T1, T2>
+where
+    T1: AdventurersRepository + Send + Sync,
+    T2: GuildCommandersRepository + Send + Sync,
+{
+    adventurers_repository: Arc<T1>,
+    guild_commanders_repository: Arc<T2>,
 }
 
-impl AuthenticationUseCase {
+impl<T1, T2> AuthenticationUseCase<T1, T2>
+where
+    T1: AdventurersRepository + Send + Sync,
+    T2: GuildCommandersRepository + Send + Sync,
+{
     async fn login(&self, username: &str) -> Result<Passport> {
         panic!("Not implemented");
     }

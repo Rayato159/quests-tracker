@@ -3,15 +3,21 @@ use std::sync::Arc;
 use anyhow::Result;
 
 use crate::domain::{
-    repositories::quest_viewing::QuestViewingRepositorySquad,
+    repositories::quest_viewing::QuestViewingRepository,
     value_objects::{board_checking_filter::BoardCheckingFilter, quest_model::QuestModel},
 };
 
-pub struct QuestViewingUseCase {
-    quest_viewing_repository: Arc<QuestViewingRepositorySquad>,
+pub struct QuestViewingUseCase<T>
+where
+    T: QuestViewingRepository + Send + Sync,
+{
+    quest_viewing_repository: Arc<T>,
 }
 
-impl QuestViewingUseCase {
+impl<T> QuestViewingUseCase<T>
+where
+    T: QuestViewingRepository + Send + Sync,
+{
     async fn view_details(&self, quest_id: i32) -> Result<QuestModel> {
         panic!("Not implemented");
     }

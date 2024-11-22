@@ -2,8 +2,6 @@ use anyhow::Result;
 use axum::async_trait;
 use mockall::automock;
 
-pub type JourneyLedgerRepositorySquad = dyn JourneyLedgerRepository + Send + Sync;
-
 #[async_trait]
 #[automock]
 pub trait JourneyLedgerRepository {

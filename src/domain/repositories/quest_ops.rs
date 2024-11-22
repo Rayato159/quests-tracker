@@ -4,8 +4,6 @@ use mockall::automock;
 
 use crate::domain::entities::quests::{InsertQuestEntity, UpdateQuestEntity};
 
-pub type QuestOpsRepositorySquad = dyn QuestOpsRepository + Send + Sync;
-
 #[async_trait]
 #[automock]
 pub trait QuestOpsRepository {

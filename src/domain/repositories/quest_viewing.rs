@@ -6,8 +6,6 @@ use crate::domain::{
     entities::quests::QuestEntity, value_objects::board_checking_filter::BoardCheckingFilter,
 };
 
-pub type QuestViewingRepositorySquad = dyn QuestViewingRepository + Send + Sync;
-
 #[async_trait]
 #[automock]
 pub trait QuestViewingRepository {
