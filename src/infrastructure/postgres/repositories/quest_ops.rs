@@ -15,6 +15,12 @@ pub struct QuestOpsPostgres {
     db_pool: Arc<PgPoolSquad>,
 }
 
+impl QuestOpsPostgres {
+    pub fn new(db_pool: Arc<PgPoolSquad>) -> Self {
+        Self { db_pool }
+    }
+}
+
 #[async_trait]
 impl QuestOpsRepository for QuestOpsPostgres {
     async fn add(&self, insert_quest_entity: InsertQuestEntity) -> Result<()> {

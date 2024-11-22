@@ -8,9 +8,23 @@ use axum::{
     Router,
 };
 
-use crate::infrastructure::postgres::postgres_connector::PgPoolSquad;
+use crate::{
+    application::usecases::quest_ops::QuestOpsUseCase,
+    infrastructure::postgres::{
+        postgres_connector::PgPoolSquad,
+        repositories::{quest_ops::QuestOpsPostgres, quest_viewing::QuestViewingPostgres},
+    },
+};
 
 pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
+    let quest_ops_repository = QuestOpsPostgres::new(Arc::clone(&db_pool));
+    let quest_viewing_repository = QuestViewingPostgres::new(Arc::clone(&db_pool));
+
+    let quest_ops_use_case = QuestOpsUseCase::new(
+        Arc::new(quest_ops_repository),
+        Arc::new(quest_viewing_repository),
+    );
+
     Router::new()
         .route("/", post(add))
         .route("/:id", patch(edit))

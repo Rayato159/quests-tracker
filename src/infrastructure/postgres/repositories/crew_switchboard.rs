@@ -12,6 +12,12 @@ pub struct CrewSwitchboardPostgres {
     db_pool: Arc<PgPoolSquad>,
 }
 
+impl CrewSwitchboardPostgres {
+    pub fn new(db_pool: Arc<PgPoolSquad>) -> Self {
+        Self { db_pool }
+    }
+}
+
 #[async_trait]
 impl CrewSwitchboardRepository for CrewSwitchboardPostgres {
     async fn join(&self, quest_id: i32, adventurer_id: i32) -> Result<()> {

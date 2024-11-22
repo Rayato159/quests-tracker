@@ -15,6 +15,12 @@ pub struct QuestViewingPostgres {
     db_pool: Arc<PgPoolSquad>,
 }
 
+impl QuestViewingPostgres {
+    pub fn new(db_pool: Arc<PgPoolSquad>) -> Self {
+        Self { db_pool }
+    }
+}
+
 #[async_trait]
 impl QuestViewingRepository for QuestViewingPostgres {
     async fn view_details(&self, quest_id: i32) -> Result<QuestEntity> {

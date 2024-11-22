@@ -12,6 +12,12 @@ pub struct JourneyLedgerPostgres {
     db_pool: Arc<PgPoolSquad>,
 }
 
+impl JourneyLedgerPostgres {
+    pub fn new(db_pool: Arc<PgPoolSquad>) -> Self {
+        Self { db_pool }
+    }
+}
+
 #[async_trait]
 impl JourneyLedgerRepository for JourneyLedgerPostgres {
     async fn in_journey(&self, quest_id: i32) -> Result<()> {

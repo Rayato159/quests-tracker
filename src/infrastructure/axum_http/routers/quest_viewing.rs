@@ -9,11 +9,17 @@ use axum::{
 };
 
 use crate::{
+    application::usecases::quest_viewing::QuestViewingUseCase,
     domain::value_objects::board_checking_filter::BoardCheckingFilter,
-    infrastructure::postgres::postgres_connector::PgPoolSquad,
+    infrastructure::postgres::{
+        postgres_connector::PgPoolSquad, repositories::quest_viewing::QuestViewingPostgres,
+    },
 };
 
 pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
+    let quest_viewing_repository = QuestViewingPostgres::new(db_pool);
+    let quest_viewing_use_case = QuestViewingUseCase::new(Arc::new(quest_viewing_repository));
+
     Router::new()
         .route("/:id", get(view_details))
         .route("/board-checking", get(board_checking))

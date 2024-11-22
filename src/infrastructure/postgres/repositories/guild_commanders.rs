@@ -15,6 +15,12 @@ pub struct GuildCommandersPostgres {
     db_pool: Arc<PgPoolSquad>,
 }
 
+impl GuildCommandersPostgres {
+    pub fn new(db_pool: Arc<PgPoolSquad>) -> Self {
+        Self { db_pool }
+    }
+}
+
 #[async_trait]
 impl GuildCommandersRepository for GuildCommandersPostgres {
     async fn register(
