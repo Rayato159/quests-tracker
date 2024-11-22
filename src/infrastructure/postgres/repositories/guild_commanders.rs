@@ -25,7 +25,7 @@ impl GuildCommandersPostgres {
 impl GuildCommandersRepository for GuildCommandersPostgres {
     async fn register(
         &self,
-        insert_guild_commander_entity: InsertGuildCommanderEntity,
+        register_guild_commander_entity: InsertGuildCommanderEntity,
     ) -> Result<()> {
         panic!("Not implemented");
     }

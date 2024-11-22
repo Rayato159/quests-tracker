@@ -5,7 +5,7 @@ use axum::async_trait;
 
 use crate::domain::repositories::adventurers::AdventurersRepository;
 use crate::{
-    domain::entities::adventurers::InsertAdventurerEntity,
+    domain::entities::adventurers::RegisterAdventurerEntity,
     infrastructure::postgres::postgres_connector::PgPoolSquad,
 };
 
@@ -21,7 +21,7 @@ impl AdventurersPostgres {
 
 #[async_trait]
 impl AdventurersRepository for AdventurersPostgres {
-    async fn register(&self, insert_adventurer_entity: InsertAdventurerEntity) -> Result<()> {
+    async fn register(&self, register_adventurer_entity: RegisterAdventurerEntity) -> Result<()> {
         panic!("Not implemented")
     }
 }
