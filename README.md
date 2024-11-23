@@ -79,20 +79,80 @@ Ready to level up? Follow these steps:
 
 Boom, you're in! 🎉
 
+## 🧪 Testing
+
+1. **Run Tests**:
+
+   ```sh
+   cargo test
+   ```
+
+2. **Runing Test Coverage**:
+
+   ```sh
+   cargo install cargo-tarpaulin
+   ```
+
+   ```sh
+   cargo tarpaulin --out xml
+   ```
+
+## 📦 Upgrade All Dependecies
+
+```sh
+cargo update
+```
+
+## 🤖 Let's Cargo Clippy Refactor Your Code in Automatically
+
+```sh
+cargo clippy --fix --lib -p quests_tracker
+```
+
 ## 📝 ENV Example
+
 ```text
-STAGE=local
+STAGE=Local
 
 SERVER_PORT=8080
 SERVER_BODY_LIMIT=10 # MB
 SERVER_TIMEOUT=90 # seconds
 
 DATABASE_URL=postgres://postgres:123456@localhost/quests_tracker_db
+
+JWT_ADVENTURER_SECRET=a_supersecret
+JWT_ADVENTURER_REFRESH_SECRET=ar_supersecretrefresh
+JWT_GUILD_COMMANDER_SECRET=g_supersecret
+JWT_GUILD_COMMANDER_REFRESH_SECRET = gr_supersecretrefresh
 ```
+
+## 🐳 Build
+
+1. **Build Docker Image**:
+
+   ```sh
+   docker build -t quests-tracker:v1.0.0 -f ./Dockerfile .
+   ```
+
+2. **Run Docker Container**:
+
+   ```sh
+   podman run --name quests-tracker -p 8080:8080 \
+    -e STAGE=Local \
+    -e SERVER_PORT=8080 \
+    -e SERVER_BODY_LIMIT=10 \
+    -e SERVER_TIMEOUT=90 \
+    -e DATABASE_URL=postgres://user:password@host:port/database_name \
+    -e JWT_ADVENTURER_SECRET=xxxxx \
+    -e JWT_ADVENTURER_REFRESH_SECRET=xxxxx \
+    -e JWT_GUILD_COMMANDER_SECRET=xxxxx \
+    -e JWT_GUILD_COMMANDER_REFRESH_SECRET=xxxxx \
+    -d quests-tracker:v1.0.0
+   ```
 
 ## ⚡️ Usage
 
-- **Create a Quest**: Start a new adventure for your crew.
+- **Do a Quest Ops**: Start a new adventure for your crew.
 - **Add Adventurers**: Let your squad join in on the action.
 - **Track Progress**: Update and check the status of quests, know who’s thriving and who’s not.
 
