@@ -9,8 +9,8 @@ pub struct AdventurerEntity {
     pub id: i32,
     pub username: String,
     pub password: String,
-    pub created_at: Option<NaiveDateTime>,
-    pub updated_at: Option<NaiveDateTime>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Debug, Clone, Insertable, Queryable)]

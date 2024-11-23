@@ -11,8 +11,8 @@ pub struct QuestModel {
     pub status: String,
     pub guild_commander_id: i32,
     pub adventurers_count: i64,
-    pub created_at: Option<NaiveDateTime>,
-    pub updated_at: Option<NaiveDateTime>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

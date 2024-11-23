@@ -70,7 +70,7 @@ where
             || quest.status == QuestStatuses::Failed.to_string();
 
         if !leaving_coditions {
-            return Err(anyhow::anyhow!("Quest is not joinable"));
+            return Err(anyhow::anyhow!("Quest is not leavable"));
         }
 
         self.crew_switchboard_repository

@@ -13,8 +13,8 @@ pub struct QuestEntity {
     pub description: Option<String>,
     pub status: String,
     pub guild_commander_id: i32,
-    pub created_at: Option<NaiveDateTime>,
-    pub updated_at: Option<NaiveDateTime>,
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 impl QuestEntity {

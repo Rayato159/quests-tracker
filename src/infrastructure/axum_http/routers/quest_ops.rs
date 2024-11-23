@@ -24,15 +24,6 @@ use crate::{
     },
 };
 
-#[derive(Clone)]
-pub struct QuestOpsState<T1, T2>
-where
-    T1: QuestOpsRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
-{
-    pub quest_ops_use_case: Arc<QuestOpsUseCase<T1, T2>>,
-}
-
 pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     let quest_ops_repository = QuestOpsPostgres::new(Arc::clone(&db_pool));
     let quest_viewing_repository = QuestViewingPostgres::new(Arc::clone(&db_pool));

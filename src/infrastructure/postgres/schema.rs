@@ -7,8 +7,8 @@ diesel::table! {
         username -> Varchar,
         #[max_length = 255]
         password -> Varchar,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 
@@ -19,8 +19,8 @@ diesel::table! {
         username -> Varchar,
         #[max_length = 255]
         password -> Varchar,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
     }
 }
 
@@ -40,8 +40,8 @@ diesel::table! {
         #[max_length = 255]
         status -> Varchar,
         guild_commander_id -> Int4,
-        created_at -> Nullable<Timestamp>,
-        updated_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+        updated_at -> Timestamp,
         deleted_at -> Nullable<Timestamp>,
     }
 }

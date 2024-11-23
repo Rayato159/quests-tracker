@@ -56,6 +56,7 @@ impl QuestViewingRepository for QuestViewingPostgres {
 
         let results = query
             .select(QuestEntity::as_select())
+            .order_by(quests::created_at.desc())
             .load::<QuestEntity>(&mut conn)?;
 
         Ok(results)
