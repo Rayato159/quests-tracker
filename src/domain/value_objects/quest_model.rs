@@ -10,7 +10,7 @@ pub struct QuestModel {
     pub description: Option<String>,
     pub status: String,
     pub guild_commander_id: i32,
-    pub adventurer_count: i64,
+    pub adventurers_count: i64,
     pub created_at: Option<NaiveDateTime>,
     pub updated_at: Option<NaiveDateTime>,
 }

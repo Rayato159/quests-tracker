@@ -18,14 +18,14 @@ pub struct QuestEntity {
 }
 
 impl QuestEntity {
-    pub fn to_model(&self, adventurer_count: i64) -> QuestModel {
+    pub fn to_model(&self, adventurers_count: i64) -> QuestModel {
         QuestModel {
             id: self.id,
             name: self.name.clone(),
             description: self.description.clone(),
             status: self.status.clone(),
             guild_commander_id: self.guild_commander_id,
-            adventurer_count,
+            adventurers_count,
             created_at: self.created_at,
             updated_at: self.updated_at,
         }
