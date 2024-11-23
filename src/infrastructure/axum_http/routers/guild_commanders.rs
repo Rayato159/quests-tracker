@@ -19,7 +19,7 @@ use crate::{
 
 pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     let guild_commanders_repository = GuildCommandersPostgres::new(db_pool);
-    let hashing = Argon2Hashing::default();
+    let hashing = Argon2Hashing;
     let guild_commanders_use_case =
         GuildCommandersUseCase::new(Arc::new(guild_commanders_repository), Arc::new(hashing));
 
