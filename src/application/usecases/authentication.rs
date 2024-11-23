@@ -4,7 +4,7 @@ use anyhow::Result;
 use chrono::{Duration, Utc};
 
 use crate::{
-    config::config_model,
+    config::config_loader::{get_adventurers_secret_env, get_guild_commanders_secret_env},
     domain::repositories::{
         adventurers::AdventurersRepository, guild_commanders::GuildCommandersRepository,
     },
@@ -25,7 +25,6 @@ where
 {
     adventurers_repository: Arc<T1>,
     guild_commanders_repository: Arc<T2>,
-    pub jwt_config: Arc<config_model::JwtAuthentication>,
 }
 
 impl<T1, T2> AuthenticationUseCase<T1, T2>
@@ -33,19 +32,16 @@ where
     T1: AdventurersRepository + Send + Sync,
     T2: GuildCommandersRepository + Send + Sync,
 {
-    pub fn new(
-        adventurers_repository: Arc<T1>,
-        guild_commanders_repository: Arc<T2>,
-        jwt_config: Arc<config_model::JwtAuthentication>,
-    ) -> Self {
+    pub fn new(adventurers_repository: Arc<T1>, guild_commanders_repository: Arc<T2>) -> Self {
         Self {
             adventurers_repository,
             guild_commanders_repository,
-            jwt_config,
         }
     }
 
-    pub async fn adventurer_login(&self, login_model: LoginModel) -> Result<Passport> {
+    pub async fn adventurers_login(&self, login_model: LoginModel) -> Result<Passport> {
+        let secret_env = get_adventurers_secret_env()?;
+
         let adventurer = self
             .adventurers_repository
             .find_by_username(login_model.username.clone())
@@ -72,15 +68,11 @@ where
             iat: Utc::now().timestamp() as usize,
         };
 
-        let access_token = jwt_authentication::generate_token(
-            self.jwt_config.adventurer_secret.clone(),
-            &access_token_claims,
-        )?;
+        let access_token =
+            jwt_authentication::generate_token(secret_env.secret, &access_token_claims)?;
 
-        let refresh_token = jwt_authentication::generate_token(
-            self.jwt_config.adventurer_refresh_secret.clone(),
-            &refresh_token_claims,
-        )?;
+        let refresh_token =
+            jwt_authentication::generate_token(secret_env.refresh_secret, &refresh_token_claims)?;
 
         Ok(Passport {
             refresh_token,
@@ -88,11 +80,11 @@ where
         })
     }
 
-    pub async fn adventurer_refresh_token(&self, refresh_token: String) -> Result<Passport> {
-        let claims = jwt_authentication::verify_token(
-            self.jwt_config.adventurer_refresh_secret.clone(),
-            refresh_token.clone(),
-        )?;
+    pub async fn adventurers_refresh_token(&self, refresh_token: String) -> Result<Passport> {
+        let secret_env = get_adventurers_secret_env()?;
+
+        let claims =
+            jwt_authentication::verify_token(secret_env.secret.clone(), refresh_token.clone())?;
 
         let access_token_claims = Claims {
             sub: claims.sub.clone(),
@@ -108,15 +100,11 @@ where
             iat: Utc::now().timestamp() as usize,
         };
 
-        let access_token = jwt_authentication::generate_token(
-            self.jwt_config.adventurer_secret.clone(),
-            &access_token_claims,
-        )?;
+        let access_token =
+            jwt_authentication::generate_token(secret_env.secret, &access_token_claims)?;
 
-        let refresh_token = jwt_authentication::generate_token(
-            self.jwt_config.adventurer_refresh_secret.clone(),
-            &refresh_token_claims,
-        )?;
+        let refresh_token =
+            jwt_authentication::generate_token(secret_env.refresh_secret, &refresh_token_claims)?;
 
         Ok(Passport {
             refresh_token,
@@ -124,7 +112,7 @@ where
         })
     }
 
-    pub async fn guild_commander_login(&self, login_model: LoginModel) -> Result<Passport> {
+    pub async fn guild_commanders_login(&self, login_model: LoginModel) -> Result<Passport> {
         let guild_commander = self
             .guild_commanders_repository
             .find_by_username(login_model.username.clone())
@@ -151,15 +139,13 @@ where
             iat: Utc::now().timestamp() as usize,
         };
 
-        let access_token = jwt_authentication::generate_token(
-            self.jwt_config.guild_commander_secret.clone(),
-            &access_token_claims,
-        )?;
+        let secret_env = get_guild_commanders_secret_env()?;
 
-        let refresh_token = jwt_authentication::generate_token(
-            self.jwt_config.guild_commander_refresh_secret.clone(),
-            &refresh_token_claims,
-        )?;
+        let access_token =
+            jwt_authentication::generate_token(secret_env.secret, &access_token_claims)?;
+
+        let refresh_token =
+            jwt_authentication::generate_token(secret_env.refresh_secret, &refresh_token_claims)?;
 
         Ok(Passport {
             refresh_token,
@@ -167,11 +153,11 @@ where
         })
     }
 
-    pub async fn guild_commander_refresh_token(&self, refresh_token: String) -> Result<Passport> {
-        let claims = jwt_authentication::verify_token(
-            self.jwt_config.guild_commander_refresh_secret.clone(),
-            refresh_token.clone(),
-        )?;
+    pub async fn guild_commanders_refresh_token(&self, refresh_token: String) -> Result<Passport> {
+        let secret_env = get_guild_commanders_secret_env()?;
+
+        let claims =
+            jwt_authentication::verify_token(secret_env.secret.clone(), refresh_token.clone())?;
 
         let access_token_claims = Claims {
             sub: claims.sub.clone(),
@@ -187,15 +173,11 @@ where
             iat: Utc::now().timestamp() as usize,
         };
 
-        let access_token = jwt_authentication::generate_token(
-            self.jwt_config.guild_commander_secret.clone(),
-            &access_token_claims,
-        )?;
+        let access_token =
+            jwt_authentication::generate_token(secret_env.secret, &access_token_claims)?;
 
-        let refresh_token = jwt_authentication::generate_token(
-            self.jwt_config.guild_commander_refresh_secret.clone(),
-            &refresh_token_claims,
-        )?;
+        let refresh_token =
+            jwt_authentication::generate_token(secret_env.refresh_secret, &refresh_token_claims)?;
 
         Ok(Passport {
             refresh_token,

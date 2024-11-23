@@ -19,9 +19,44 @@ use crate::{
 use super::default_routers;
 
 pub async fn start(config: Arc<DotEnvyConfig>, db_pool: Arc<PgPoolSquad>) -> Result<()> {
-    let jwt_config = config.jwt_authentication.clone();
-
     let app = Router::new()
+        .fallback(default_routers::not_found)
+        .nest(
+            "/journey-ledger",
+            routers::journey_ledger::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/quest-ops",
+            routers::quest_ops::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/crew-switchboard",
+            routers::crew_switchboard::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/guild-commanders",
+            routers::guild_commanders::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/adventurers",
+            routers::adventures::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/quest-viewing",
+            routers::quest_viewing::routes(Arc::clone(&db_pool)),
+        )
+        .nest(
+            "/authentication",
+            routers::authentication::routes(Arc::clone(&db_pool)),
+        )
+        .route("/health-check", get(default_routers::health_check))
+        .layer(TimeoutLayer::new(Duration::from_secs(
+            config.server.timeout,
+        )))
+        .layer(TraceLayer::new_for_http())
+        .layer(RequestBodyLimitLayer::new(
+            (config.server.body_limit * 1024 * 1024).try_into()?,
+        ))
         .layer(
             CorsLayer::new()
                 .allow_methods([
@@ -33,43 +68,7 @@ pub async fn start(config: Arc<DotEnvyConfig>, db_pool: Arc<PgPoolSquad>) -> Res
                 ])
                 .allow_origin(Any),
         )
-        .layer(RequestBodyLimitLayer::new(
-            (config.server.body_limit * 1024 * 1024).try_into()?,
-        ))
-        .route("/health-check", get(default_routers::health_check))
-        .nest(
-            "/authentication",
-            routers::authentication::routes(Arc::clone(&db_pool), Arc::new(jwt_config)),
-        )
-        .nest(
-            "/quest-ops",
-            routers::quest_ops::routes(Arc::clone(&db_pool)),
-        )
-        .nest(
-            "/quest-viewing",
-            routers::quest_viewing::routes(Arc::clone(&db_pool)),
-        )
-        .nest(
-            "/crew-switchboard",
-            routers::crew_switchboard::routes(Arc::clone(&db_pool)),
-        )
-        .nest(
-            "/journey-ledger",
-            routers::journey_ledger::routes(Arc::clone(&db_pool)),
-        )
-        .nest(
-            "/adventurers",
-            routers::adventures::routes(Arc::clone(&db_pool)),
-        )
-        .nest(
-            "/guild-commanders",
-            routers::guild_commanders::routes(Arc::clone(&db_pool)),
-        )
-        .layer(TraceLayer::new_for_http())
-        .layer(TimeoutLayer::new(Duration::from_secs(
-            config.server.timeout,
-        )))
-        .fallback(default_routers::not_found);
+        .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([0, 0, 0, 0], config.server.port));
 

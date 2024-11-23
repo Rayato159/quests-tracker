@@ -1,11 +1,7 @@
-use super::stage::Stage;
-
 #[derive(Debug, Clone)]
 pub struct DotEnvyConfig {
-    pub stage: Stage,
     pub server: Server,
     pub database: Database,
-    pub jwt_authentication: JwtAuthentication,
 }
 
 #[derive(Debug, Clone)]
@@ -21,10 +17,13 @@ pub struct Database {
 }
 
 #[derive(Debug, Clone)]
-pub struct JwtAuthentication {
-    pub adventurer_secret: String,
-    pub adventurer_refresh_secret: String,
-    pub guild_commander_secret: String,
-    pub guild_commander_refresh_secret: String,
-    pub is_secure: bool,
+pub struct AdventurersSecret {
+    pub secret: String,
+    pub refresh_secret: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct GuildCommandersSecret {
+    pub secret: String,
+    pub refresh_secret: String,
 }

@@ -48,6 +48,6 @@ pub struct AddQuestEntity {
 pub struct EditQuestEntity {
     pub name: Option<String>,
     pub description: Option<String>,
-    pub guild_commander_id: Option<i32>,
+    pub guild_commander_id: i32,
     pub updated_at: NaiveDateTime,
 }

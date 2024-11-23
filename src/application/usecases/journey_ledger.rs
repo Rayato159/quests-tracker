@@ -6,7 +6,9 @@ use crate::domain::{
     repositories::{
         journey_ledger::JourneyLedgerRepository, quest_viewing::QuestViewingRepository,
     },
-    value_objects::quest_statuses::QuestStatuses,
+    value_objects::{
+        quest_adventurer_junction::MAX_ADVENTURERS_PER_QUEST, quest_statuses::QuestStatuses,
+    },
 };
 
 pub struct JourneyLedgerUseCase<T1, T2>
@@ -30,7 +32,7 @@ where
         }
     }
 
-    pub async fn in_journey(&self, quest_id: i32) -> Result<i32> {
+    pub async fn in_journey(&self, quest_id: i32, guild_commander_id: i32) -> Result<i32> {
         let quest = self.quest_viewing_repository.view_details(quest_id).await?;
 
         let adventurers_number = self
@@ -40,18 +42,22 @@ where
 
         let conditions_to_update = (quest.status == QuestStatuses::Open.to_string()
             || quest.status == QuestStatuses::Failed.to_string())
-            && adventurers_number > 0;
+            && adventurers_number > 0
+            && adventurers_number <= MAX_ADVENTURERS_PER_QUEST;
 
         if !conditions_to_update {
             return Err(anyhow::anyhow!("Invalid condition to change status"));
         }
 
-        let result = self.journey_ledger_repository.in_journey(quest_id).await?;
+        let result = self
+            .journey_ledger_repository
+            .in_journey(quest_id, guild_commander_id)
+            .await?;
 
         Ok(result)
     }
 
-    pub async fn to_completed(&self, quest_id: i32) -> Result<i32> {
+    pub async fn to_completed(&self, quest_id: i32, guild_commander_id: i32) -> Result<i32> {
         let quest = self.quest_viewing_repository.view_details(quest_id).await?;
 
         let conditions_to_update = quest.status == QuestStatuses::InJourney.to_string();
@@ -62,13 +68,13 @@ where
 
         let result = self
             .journey_ledger_repository
-            .to_completed(quest_id)
+            .to_completed(quest_id, guild_commander_id)
             .await?;
 
         Ok(result)
     }
 
-    pub async fn to_failed(&self, quest_id: i32) -> Result<i32> {
+    pub async fn to_failed(&self, quest_id: i32, guild_commander_id: i32) -> Result<i32> {
         let quest = self.quest_viewing_repository.view_details(quest_id).await?;
 
         let conditions_to_update = quest.status == QuestStatuses::InJourney.to_string();
@@ -77,7 +83,10 @@ where
             return Err(anyhow::anyhow!("Invalid condition to change status"));
         }
 
-        let result = self.journey_ledger_repository.to_failed(quest_id).await?;
+        let result = self
+            .journey_ledger_repository
+            .to_failed(quest_id, guild_commander_id)
+            .await?;
 
         Ok(result)
     }

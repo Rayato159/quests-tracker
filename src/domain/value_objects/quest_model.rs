@@ -19,15 +19,14 @@ pub struct QuestModel {
 pub struct AddQuestModel {
     pub name: String,
     pub description: Option<String>,
-    pub guild_commander_id: i32,
 }
 
 impl AddQuestModel {
-    pub fn to_entity(&self) -> AddQuestEntity {
+    pub fn to_entity(&self, guild_commander_id: i32) -> AddQuestEntity {
         AddQuestEntity {
             name: self.name.clone(),
             description: self.description.clone(),
-            guild_commander_id: self.guild_commander_id,
+            guild_commander_id,
             status: crate::domain::value_objects::quest_statuses::QuestStatuses::Open.to_string(),
             created_at: chrono::Utc::now().naive_utc(),
             updated_at: chrono::Utc::now().naive_utc(),
@@ -39,15 +38,14 @@ impl AddQuestModel {
 pub struct EditQuestModel {
     pub name: Option<String>,
     pub description: Option<String>,
-    pub guild_commander_id: Option<i32>,
 }
 
 impl EditQuestModel {
-    pub fn to_entity(&self) -> EditQuestEntity {
+    pub fn to_entity(&self, guild_commander_id: i32) -> EditQuestEntity {
         EditQuestEntity {
             name: self.name.clone(),
             description: self.description.clone(),
-            guild_commander_id: self.guild_commander_id,
+            guild_commander_id,
             updated_at: chrono::Utc::now().naive_utc(),
         }
     }

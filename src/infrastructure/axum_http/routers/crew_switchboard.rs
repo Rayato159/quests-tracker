@@ -3,9 +3,10 @@ use std::sync::Arc;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
+    middleware,
     response::IntoResponse,
     routing::{delete, post},
-    Router,
+    Extension, Router,
 };
 
 use crate::{
@@ -13,10 +14,13 @@ use crate::{
     domain::repositories::{
         crew_switchboard::CrewSwitchboardRepository, quest_viewing::QuestViewingRepository,
     },
-    infrastructure::postgres::{
-        postgres_connector::PgPoolSquad,
-        repositories::{
-            crew_switchboard::CrewSwitchboardPostgres, quest_viewing::QuestViewingPostgres,
+    infrastructure::{
+        axum_http::middleware::adventurers_authorization,
+        postgres::{
+            postgres_connector::PgPoolSquad,
+            repositories::{
+                crew_switchboard::CrewSwitchboardPostgres, quest_viewing::QuestViewingPostgres,
+            },
         },
     },
 };
@@ -33,28 +37,28 @@ pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     Router::new()
         .route("/join/:quest_id", post(join))
         .route("/leave/:quest_id", delete(leave))
+        .route_layer(middleware::from_fn(adventurers_authorization))
         .with_state(Arc::new(crew_switchboard_use_case))
 }
 
 pub async fn join<T1, T2>(
     State(crew_switchboard_use_case): State<Arc<CrewSwitchboardUseCase<T1, T2>>>,
+    Extension(adventurer_id): Extension<i32>,
     Path(quest_id): Path<i32>,
 ) -> impl IntoResponse
 where
     T1: CrewSwitchboardRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    let mock_adventurer_id = 1;
-
     match crew_switchboard_use_case
-        .join(quest_id, mock_adventurer_id)
+        .join(quest_id, adventurer_id)
         .await
     {
         Ok(_) => (
             StatusCode::OK,
             format!(
                 "Adventurer id: {}, has joined quest id: {}",
-                mock_adventurer_id, quest_id
+                adventurer_id, quest_id
             ),
         )
             .into_response(),
@@ -64,23 +68,22 @@ where
 
 pub async fn leave<T1, T2>(
     State(crew_switchboard_use_case): State<Arc<CrewSwitchboardUseCase<T1, T2>>>,
+    Extension(adventurer_id): Extension<i32>,
     Path(quest_id): Path<i32>,
 ) -> impl IntoResponse
 where
     T1: CrewSwitchboardRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    let mock_adventurer_id = 1;
-
     match crew_switchboard_use_case
-        .leave(quest_id, mock_adventurer_id)
+        .leave(quest_id, adventurer_id)
         .await
     {
         Ok(_) => (
             StatusCode::OK,
             format!(
                 "Adventurer id: {}, has leaved quest id: {}",
-                mock_adventurer_id, quest_id
+                adventurer_id, quest_id
             ),
         )
             .into_response(),

@@ -51,14 +51,17 @@ impl QuestOpsRepository for QuestOpsPostgres {
         Ok(result)
     }
 
-    async fn remove(&self, quest_id: i32) -> Result<()> {
+    async fn remove(&self, quest_id: i32, guild_commander_id: i32) -> Result<()> {
         let mut conn = Arc::clone(&self.db_pool).get()?;
 
         diesel::update(quests::table)
             .filter(quests::id.eq(quest_id))
             .filter(quests::deleted_at.is_null())
             .filter(quests::status.eq(QuestStatuses::Open.to_string()))
-            .set(quests::deleted_at.eq(chrono::Utc::now().naive_utc()))
+            .set((
+                quests::deleted_at.eq(diesel::dsl::now),
+                quests::guild_commander_id.eq(guild_commander_id),
+            ))
             .execute(&mut conn)?;
 
         Ok(())

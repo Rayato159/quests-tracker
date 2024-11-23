@@ -12,7 +12,7 @@ use cookie::time::Duration;
 
 use crate::{
     application::usecases::authentication::AuthenticationUseCase,
-    config::config_model::{self},
+    config::{config_loader::get_stage, stage::Stage},
     domain::repositories::{
         adventurers::AdventurersRepository, guild_commanders::GuildCommandersRepository,
     },
@@ -27,30 +27,29 @@ use crate::{
     },
 };
 
-pub fn routes(
-    db_pool: Arc<PgPoolSquad>,
-    jwt_config: Arc<config_model::JwtAuthentication>,
-) -> Router {
+pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     let adventurers_repository = AdventurersPostgres::new(Arc::clone(&db_pool));
     let guild_commanders_repository = GuildCommandersPostgres::new(Arc::clone(&db_pool));
     let authentication_use_case = AuthenticationUseCase::new(
         Arc::new(adventurers_repository),
         Arc::new(guild_commanders_repository),
-        Arc::clone(&jwt_config),
     );
 
     Router::new()
-        .route("/adventurers/login", post(adventurer_login))
-        .route("/adventurers/refresh-token", post(adventurer_refresh_token))
-        .route("/guild-commanders/login", post(guild_commander_login))
+        .route("/adventurers/login", post(adventurers_login))
+        .route(
+            "/adventurers/refresh-token",
+            post(adventurers_refresh_token),
+        )
+        .route("/guild-commanders/login", post(guild_commanders_login))
         .route(
             "/guild-commanders/refresh-token",
-            post(guild_commander_refresh_token),
+            post(guild_commanders_refresh_token),
         )
         .with_state(Arc::new(authentication_use_case))
 }
 
-pub async fn adventurer_login<T1, T2>(
+pub async fn adventurers_login<T1, T2>(
     State(authentication_use_case): State<Arc<AuthenticationUseCase<T1, T2>>>,
     Json(login_model): Json<LoginModel>,
 ) -> impl IntoResponse
@@ -58,7 +57,7 @@ where
     T1: AdventurersRepository + Send + Sync,
     T2: GuildCommandersRepository + Send + Sync,
 {
-    match authentication_use_case.adventurer_login(login_model).await {
+    match authentication_use_case.adventurers_login(login_model).await {
         Ok(passport) => {
             let mut act_cookie = Cookie::build(("act", passport.access_token.clone()))
                 .path("/")
@@ -72,7 +71,7 @@ where
                 .http_only(true)
                 .max_age(Duration::days(14));
 
-            if authentication_use_case.jwt_config.is_secure {
+            if get_stage() == Stage::Production {
                 rft_cookie = rft_cookie.secure(true);
                 act_cookie = act_cookie.secure(true);
             }
@@ -93,7 +92,7 @@ where
     }
 }
 
-pub async fn adventurer_refresh_token<T1, T2>(
+pub async fn adventurers_refresh_token<T1, T2>(
     State(authentication_use_case): State<Arc<AuthenticationUseCase<T1, T2>>>,
     jar: CookieJar,
 ) -> impl IntoResponse
@@ -105,7 +104,7 @@ where
         let refresh_token = rft.value().to_string();
 
         let response = match authentication_use_case
-            .adventurer_refresh_token(refresh_token)
+            .adventurers_refresh_token(refresh_token)
             .await
         {
             Ok(passport) => {
@@ -121,7 +120,7 @@ where
                     .http_only(true)
                     .max_age(Duration::days(14));
 
-                if authentication_use_case.jwt_config.is_secure {
+                if get_stage() == Stage::Production {
                     rft_cookie = rft_cookie.secure(true);
                     act_cookie = act_cookie.secure(true);
                 }
@@ -147,7 +146,7 @@ where
     (StatusCode::BAD_REQUEST, "Refresh token not found").into_response()
 }
 
-pub async fn guild_commander_login<T1, T2>(
+pub async fn guild_commanders_login<T1, T2>(
     State(authentication_use_case): State<Arc<AuthenticationUseCase<T1, T2>>>,
     Json(login_model): Json<LoginModel>,
 ) -> impl IntoResponse
@@ -156,7 +155,7 @@ where
     T2: GuildCommandersRepository + Send + Sync,
 {
     match authentication_use_case
-        .guild_commander_login(login_model)
+        .guild_commanders_login(login_model)
         .await
     {
         Ok(passport) => {
@@ -172,7 +171,7 @@ where
                 .http_only(true)
                 .max_age(Duration::days(14));
 
-            if authentication_use_case.jwt_config.is_secure {
+            if get_stage() == Stage::Production {
                 rft_cookie = rft_cookie.secure(true);
                 act_cookie = act_cookie.secure(true);
             }
@@ -193,7 +192,7 @@ where
     }
 }
 
-pub async fn guild_commander_refresh_token<T1, T2>(
+pub async fn guild_commanders_refresh_token<T1, T2>(
     State(authentication_use_case): State<Arc<AuthenticationUseCase<T1, T2>>>,
     jar: CookieJar,
 ) -> impl IntoResponse
@@ -205,7 +204,7 @@ where
         let refresh_token = rft.value().to_string();
 
         let response = match authentication_use_case
-            .guild_commander_refresh_token(refresh_token)
+            .guild_commanders_refresh_token(refresh_token)
             .await
         {
             Ok(passport) => {
@@ -221,7 +220,7 @@ where
                     .http_only(true)
                     .max_age(Duration::days(14));
 
-                if authentication_use_case.jwt_config.is_secure {
+                if get_stage() == Stage::Production {
                     rft_cookie = rft_cookie.secure(true);
                     act_cookie = act_cookie.secure(true);
                 }
