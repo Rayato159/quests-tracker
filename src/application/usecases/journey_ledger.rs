@@ -33,8 +33,14 @@ where
     pub async fn in_journey(&self, quest_id: i32) -> Result<i32> {
         let quest = self.quest_viewing_repository.view_details(quest_id).await?;
 
-        let conditions_to_update = quest.status == QuestStatuses::Open.to_string()
-            || quest.status == QuestStatuses::Failed.to_string();
+        let adventurers_number = self
+            .quest_viewing_repository
+            .adventurers_counting_by_quest_id(quest_id)
+            .await?;
+
+        let conditions_to_update = (quest.status == QuestStatuses::Open.to_string()
+            || quest.status == QuestStatuses::Failed.to_string())
+            && adventurers_number > 0;
 
         if !conditions_to_update {
             return Err(anyhow::anyhow!("Invalid condition to change status"));
