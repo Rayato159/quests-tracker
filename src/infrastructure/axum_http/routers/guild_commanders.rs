@@ -8,33 +8,27 @@ use crate::{
         repositories::guild_commanders::GuildCommandersRepository,
         value_objects::guild_commander_model::RegisterGuildCommanderModel,
     },
-    infrastructure::{
-        hashing::{argon2_hashing::Argon2Hashing, Hashing},
-        postgres::{
-            postgres_connector::PgPoolSquad,
-            repositories::guild_commanders::GuildCommandersPostgres,
-        },
+    infrastructure::postgres::{
+        postgres_connector::PgPoolSquad, repositories::guild_commanders::GuildCommandersPostgres,
     },
 };
 
 pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     let guild_commanders_repository = GuildCommandersPostgres::new(db_pool);
-    let hashing = Argon2Hashing;
     let guild_commanders_use_case =
-        GuildCommandersUseCase::new(Arc::new(guild_commanders_repository), Arc::new(hashing));
+        GuildCommandersUseCase::new(Arc::new(guild_commanders_repository));
 
     Router::new()
         .route("/", post(register))
         .with_state(Arc::new(guild_commanders_use_case))
 }
 
-pub async fn register<T1, T2>(
-    State(guild_commanders_use_case): State<Arc<GuildCommandersUseCase<T1, T2>>>,
+pub async fn register<T>(
+    State(guild_commanders_use_case): State<Arc<GuildCommandersUseCase<T>>>,
     Json(register_guild_commander_model): Json<RegisterGuildCommanderModel>,
 ) -> impl IntoResponse
 where
-    T1: GuildCommandersRepository + Send + Sync,
-    T2: Hashing,
+    T: GuildCommandersRepository + Send + Sync,
 {
     match guild_commanders_use_case
         .register(register_guild_commander_model)

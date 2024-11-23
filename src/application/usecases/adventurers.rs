@@ -7,27 +7,23 @@ use crate::{
         repositories::adventurers::AdventurersRepository,
         value_objects::adventurer_model::RegisterAdventurerModel,
     },
-    infrastructure::hashing::Hashing,
+    infrastructure::argon2_hashing,
 };
 
-pub struct AdventurersUseCase<T1, T2>
+pub struct AdventurersUseCase<T>
 where
-    T1: AdventurersRepository + Send + Sync,
-    T2: Hashing,
+    T: AdventurersRepository + Send + Sync,
 {
-    adventurers_repository: Arc<T1>,
-    hashing: Arc<T2>,
+    adventurers_repository: Arc<T>,
 }
 
-impl<T1, T2> AdventurersUseCase<T1, T2>
+impl<T> AdventurersUseCase<T>
 where
-    T1: AdventurersRepository + Send + Sync,
-    T2: Hashing + Send + Sync,
+    T: AdventurersRepository + Send + Sync,
 {
-    pub fn new(adventurers_repository: Arc<T1>, hashing: Arc<T2>) -> Self {
+    pub fn new(adventurers_repository: Arc<T>) -> Self {
         Self {
             adventurers_repository,
-            hashing,
         }
     }
 
@@ -35,9 +31,7 @@ where
         &self,
         mut register_adventurer_model: RegisterAdventurerModel,
     ) -> Result<i32> {
-        let hashed_password = self
-            .hashing
-            .hash(register_adventurer_model.password.clone())?;
+        let hashed_password = argon2_hashing::hash(register_adventurer_model.password.clone())?;
 
         register_adventurer_model.password = hashed_password;
 

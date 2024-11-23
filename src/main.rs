@@ -32,7 +32,7 @@ async fn main() {
 
     info!("Postgres connection has been established");
 
-    start(&dotenvy_env, Arc::new(postgres_pool))
+    start(Arc::new(dotenvy_env), Arc::new(postgres_pool))
         .await
         .expect("Failed to start server");
 }

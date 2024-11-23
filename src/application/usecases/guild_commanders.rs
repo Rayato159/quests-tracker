@@ -7,27 +7,23 @@ use crate::{
         repositories::guild_commanders::GuildCommandersRepository,
         value_objects::guild_commander_model::RegisterGuildCommanderModel,
     },
-    infrastructure::hashing::Hashing,
+    infrastructure::argon2_hashing,
 };
 
-pub struct GuildCommandersUseCase<T1, T2>
+pub struct GuildCommandersUseCase<T>
 where
-    T1: GuildCommandersRepository + Send + Sync,
-    T2: Hashing,
+    T: GuildCommandersRepository + Send + Sync,
 {
-    guild_commanders_repository: Arc<T1>,
-    hashing: Arc<T2>,
+    guild_commanders_repository: Arc<T>,
 }
 
-impl<T1, T2> GuildCommandersUseCase<T1, T2>
+impl<T> GuildCommandersUseCase<T>
 where
-    T1: GuildCommandersRepository + Send + Sync,
-    T2: Hashing,
+    T: GuildCommandersRepository + Send + Sync,
 {
-    pub fn new(guild_commanders_repository: Arc<T1>, hashing: Arc<T2>) -> Self {
+    pub fn new(guild_commanders_repository: Arc<T>) -> Self {
         Self {
             guild_commanders_repository,
-            hashing,
         }
     }
 
@@ -35,9 +31,8 @@ where
         &self,
         mut register_guild_commander_model: RegisterGuildCommanderModel,
     ) -> Result<i32> {
-        let hashed_password = self
-            .hashing
-            .hash(register_guild_commander_model.password.clone())?;
+        let hashed_password =
+            argon2_hashing::hash(register_guild_commander_model.password.clone())?;
 
         register_guild_commander_model.password = hashed_password;
 

@@ -8,32 +8,26 @@ use crate::{
         repositories::adventurers::AdventurersRepository,
         value_objects::adventurer_model::RegisterAdventurerModel,
     },
-    infrastructure::{
-        hashing::{argon2_hashing::Argon2Hashing, Hashing},
-        postgres::{
-            postgres_connector::PgPoolSquad, repositories::adventurers::AdventurersPostgres,
-        },
+    infrastructure::postgres::{
+        postgres_connector::PgPoolSquad, repositories::adventurers::AdventurersPostgres,
     },
 };
 
 pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     let adventurers_repository = AdventurersPostgres::new(db_pool);
-    let hashing = Argon2Hashing;
-    let adventures_use_case =
-        AdventurersUseCase::new(Arc::new(adventurers_repository), Arc::new(hashing));
+    let adventures_use_case = AdventurersUseCase::new(Arc::new(adventurers_repository));
 
     Router::new()
         .route("/", post(register))
         .with_state(Arc::new(adventures_use_case))
 }
 
-pub async fn register<T1, T2>(
-    State(adventures_use_case): State<Arc<AdventurersUseCase<T1, T2>>>,
+pub async fn register<T>(
+    State(adventures_use_case): State<Arc<AdventurersUseCase<T>>>,
     Json(register_adventurer_model): Json<RegisterAdventurerModel>,
 ) -> impl IntoResponse
 where
-    T1: AdventurersRepository + Send + Sync,
-    T2: Hashing + Send + Sync,
+    T: AdventurersRepository + Send + Sync,
 {
     match adventures_use_case
         .register(register_adventurer_model)

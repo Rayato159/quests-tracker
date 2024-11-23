@@ -1,4 +1,5 @@
 pub mod adventures;
+pub mod authentication;
 pub mod crew_switchboard;
 pub mod guild_commanders;
 pub mod journey_ledger;

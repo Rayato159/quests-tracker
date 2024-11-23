@@ -2,8 +2,10 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use axum::async_trait;
+use diesel::prelude::*;
 use diesel::{insert_into, RunQueryDsl};
 
+use crate::domain::entities::adventurers::AdventurerEntity;
 use crate::domain::repositories::adventurers::AdventurersRepository;
 use crate::infrastructure::postgres::schema::adventurers;
 use crate::{
@@ -30,6 +32,17 @@ impl AdventurersRepository for AdventurersPostgres {
             .values(&register_adventurer_entity)
             .returning(adventurers::id)
             .get_result::<i32>(&mut conn)?;
+
+        Ok(result)
+    }
+
+    async fn find_by_username(&self, username: String) -> Result<AdventurerEntity> {
+        let mut conn = Arc::clone(&self.db_pool).get()?;
+
+        let result = adventurers::table
+            .filter(adventurers::username.eq(username))
+            .select(AdventurerEntity::as_select())
+            .first::<AdventurerEntity>(&mut conn)?;
 
         Ok(result)
     }

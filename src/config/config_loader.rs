@@ -31,9 +31,21 @@ pub fn load() -> Result<DotEnvyConfig> {
         url: std::env::var("DATABASE_URL").expect("DATABASE_URL is invalid"),
     };
 
+    let jwt_authentication = super::config_model::JwtAuthentication {
+        adventurer_secret: std::env::var("JWT_ADVENTURER_SECRET")
+            .expect("JWT_ADVENTURER_SECRET is invalid"),
+        adventurer_refresh_secret: std::env::var("JWT_ADVENTURER_REFRESH_SECRET")
+            .expect("JWT_ADVENTURER_REFRESH_SECRET is invalid"),
+        guild_commander_secret: std::env::var("JWT_GUILD_COMMANDER_SECRET")
+            .expect("JWT_GUILD_COMMANDER_SECRET is invalid"),
+        guild_commander_refresh_secret: std::env::var("JWT_GUILD_COMMANDER_REFRESH_SECRET")
+            .expect("JWT_GUILD_COMMANDER_REFRESH_SECRET is invalid"),
+    };
+
     Ok(DotEnvyConfig {
         stage,
         server,
         database,
+        jwt_authentication,
     })
 }

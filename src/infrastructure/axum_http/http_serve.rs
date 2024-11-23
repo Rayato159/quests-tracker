@@ -18,7 +18,9 @@ use crate::{
 
 use super::default_routers;
 
-pub async fn start(config: &DotEnvyConfig, db_pool: Arc<PgPoolSquad>) -> Result<()> {
+pub async fn start(config: Arc<DotEnvyConfig>, db_pool: Arc<PgPoolSquad>) -> Result<()> {
+    let jwt_config = config.jwt_authentication.clone();
+
     let app = Router::new()
         .layer(
             CorsLayer::new()
@@ -35,6 +37,10 @@ pub async fn start(config: &DotEnvyConfig, db_pool: Arc<PgPoolSquad>) -> Result<
             (config.server.body_limit * 1024 * 1024).try_into()?,
         ))
         .route("/health-check", get(default_routers::health_check))
+        .nest(
+            "/authentication",
+            routers::authentication::routes(Arc::clone(&db_pool), Arc::new(jwt_config)),
+        )
         .nest(
             "/quest-ops",
             routers::quest_ops::routes(Arc::clone(&db_pool)),
