@@ -31,7 +31,7 @@ pub fn get_stage() -> Stage {
     dotenvy::dotenv().ok();
 
     let stage_str = std::env::var("STAGE").unwrap_or("".to_string());
-    Stage::try_from(&stage_str).unwrap_or(Stage::default())
+    Stage::try_from(&stage_str).unwrap_or_default()
 }
 
 pub fn get_adventurers_secret_env() -> Result<AdventurersSecret> {
