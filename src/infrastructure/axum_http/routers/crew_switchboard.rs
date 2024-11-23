@@ -1,9 +1,18 @@
 use std::sync::Arc;
 
-use axum::{http::StatusCode, response::IntoResponse, routing::post, Router};
+use axum::{
+    extract::{Path, State},
+    http::StatusCode,
+    response::IntoResponse,
+    routing::{delete, post},
+    Router,
+};
 
 use crate::{
     application::usecases::crew_switchboard::CrewSwitchboardUseCase,
+    domain::repositories::{
+        crew_switchboard::CrewSwitchboardRepository, quest_viewing::QuestViewingRepository,
+    },
     infrastructure::postgres::{
         postgres_connector::PgPoolSquad,
         repositories::{
@@ -22,14 +31,59 @@ pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     );
 
     Router::new()
-        .route("/join", post(join))
-        .route("/leave", post(leave))
+        .route("/join/:quest_id", post(join))
+        .route("/leave/:quest_id", delete(leave))
+        .with_state(Arc::new(crew_switchboard_use_case))
 }
 
-pub async fn join() -> impl IntoResponse {
-    (StatusCode::CREATED, "Join").into_response()
+pub async fn join<T1, T2>(
+    State(crew_switchboard_use_case): State<Arc<CrewSwitchboardUseCase<T1, T2>>>,
+    Path(quest_id): Path<i32>,
+) -> impl IntoResponse
+where
+    T1: CrewSwitchboardRepository + Send + Sync,
+    T2: QuestViewingRepository + Send + Sync,
+{
+    let mock_adventurer_id = 1;
+
+    match crew_switchboard_use_case
+        .join(quest_id, mock_adventurer_id)
+        .await
+    {
+        Ok(_) => (
+            StatusCode::OK,
+            format!(
+                "Adventurer id: {}, has joined quest id: {}",
+                mock_adventurer_id, quest_id
+            ),
+        )
+            .into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+    }
 }
 
-pub async fn leave() -> impl IntoResponse {
-    (StatusCode::OK, "Leave").into_response()
+pub async fn leave<T1, T2>(
+    State(crew_switchboard_use_case): State<Arc<CrewSwitchboardUseCase<T1, T2>>>,
+    Path(quest_id): Path<i32>,
+) -> impl IntoResponse
+where
+    T1: CrewSwitchboardRepository + Send + Sync,
+    T2: QuestViewingRepository + Send + Sync,
+{
+    let mock_adventurer_id = 1;
+
+    match crew_switchboard_use_case
+        .leave(quest_id, mock_adventurer_id)
+        .await
+    {
+        Ok(_) => (
+            StatusCode::OK,
+            format!(
+                "Adventurer id: {}, has leaved quest id: {}",
+                mock_adventurer_id, quest_id
+            ),
+        )
+            .into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+    }
 }

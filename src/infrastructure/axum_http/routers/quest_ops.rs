@@ -33,8 +33,8 @@ pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
 
     Router::new()
         .route("/", post(add))
-        .route("/:id", patch(edit))
-        .route("/:id", delete(remove))
+        .route("/:quest_id", patch(edit))
+        .route("/:quest_id", delete(remove))
         .with_state(Arc::clone(&quest_ops_artifact))
 }
 
@@ -47,8 +47,8 @@ where
     T2: QuestViewingRepository + Send + Sync,
 {
     match quest_ops_use_case.add(add_quest_model).await {
-        Ok(user_id) => {
-            let response = format!("Add quest success with id: {}", user_id);
+        Ok(quest_id_result) => {
+            let response = format!("Add quest success with id: {}", quest_id_result);
             (StatusCode::CREATED, response).into_response()
         }
         Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
@@ -57,16 +57,16 @@ where
 
 pub async fn edit<T1, T2>(
     State(quest_ops_use_case): State<Arc<QuestOpsUseCase<T1, T2>>>,
-    Path(id): Path<i32>,
+    Path(quest_id): Path<i32>,
     Json(edit_quest_model): Json<EditQuestModel>,
 ) -> impl IntoResponse
 where
     T1: QuestOpsRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    match quest_ops_use_case.edit(id, edit_quest_model).await {
-        Ok(quest_id) => {
-            let response = format!("Edit quest success with id: {}", quest_id);
+    match quest_ops_use_case.edit(quest_id, edit_quest_model).await {
+        Ok(quest_id_result) => {
+            let response = format!("Edit quest success with id: {}", quest_id_result);
             (StatusCode::OK, response).into_response()
         }
         Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
@@ -75,15 +75,15 @@ where
 
 pub async fn remove<T1, T2>(
     State(quest_ops_use_case): State<Arc<QuestOpsUseCase<T1, T2>>>,
-    Path(id): Path<i32>,
+    Path(quest_id): Path<i32>,
 ) -> impl IntoResponse
 where
     T1: QuestOpsRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    match quest_ops_use_case.remove(id).await {
+    match quest_ops_use_case.remove(quest_id).await {
         Ok(_) => {
-            let response = format!("Remove quest success with id: {}", id);
+            let response = format!("Remove quest success with id: {}", quest_id);
             (StatusCode::OK, response).into_response()
         }
         Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),

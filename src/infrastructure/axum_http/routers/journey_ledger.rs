@@ -33,21 +33,21 @@ pub fn routes(db_pool: Arc<PgPoolSquad>) -> Router {
     );
 
     Router::new()
-        .route("/in-journey/:id", patch(in_journey))
-        .route("/to-completed/:id", patch(to_completed))
-        .route("/to-failed/:id", patch(to_failed))
+        .route("/in-journey/:quest_id", patch(in_journey))
+        .route("/to-completed/:quest_id", patch(to_completed))
+        .route("/to-failed/:quest_id", patch(to_failed))
         .with_state(Arc::new(journey_ledger_use_case))
 }
 
 pub async fn in_journey<T1, T2>(
     State(journey_ledger_use_case): State<Arc<JourneyLedgerUseCase<T1, T2>>>,
-    Path(id): Path<i32>,
+    Path(quest_id): Path<i32>,
 ) -> impl IntoResponse
 where
     T1: JourneyLedgerRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    match journey_ledger_use_case.in_journey(id).await {
+    match journey_ledger_use_case.in_journey(quest_id).await {
         Ok(quest_id) => (
             StatusCode::OK,
             format!(
@@ -63,13 +63,13 @@ where
 
 pub async fn to_completed<T1, T2>(
     State(journey_ledger_use_case): State<Arc<JourneyLedgerUseCase<T1, T2>>>,
-    Path(id): Path<i32>,
+    Path(quest_id): Path<i32>,
 ) -> impl IntoResponse
 where
     T1: JourneyLedgerRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    match journey_ledger_use_case.to_completed(id).await {
+    match journey_ledger_use_case.to_completed(quest_id).await {
         Ok(quest_id) => (
             StatusCode::OK,
             format!(
@@ -85,13 +85,13 @@ where
 
 pub async fn to_failed<T1, T2>(
     State(journey_ledger_use_case): State<Arc<JourneyLedgerUseCase<T1, T2>>>,
-    Path(id): Path<i32>,
+    Path(quest_id): Path<i32>,
 ) -> impl IntoResponse
 where
     T1: JourneyLedgerRepository + Send + Sync,
     T2: QuestViewingRepository + Send + Sync,
 {
-    match journey_ledger_use_case.to_failed(id).await {
+    match journey_ledger_use_case.to_failed(quest_id).await {
         Ok(quest_id) => (
             StatusCode::OK,
             format!("Quest id: {} is now {:?}", quest_id, QuestStatuses::Failed),
