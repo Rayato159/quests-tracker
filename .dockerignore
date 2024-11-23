@@ -1,0 +1,36 @@
+# Target directory (build artifacts)
+target/
+
+# Cargo files
+**/*.rs.bk
+**/*.rs.swp
+**/*.rs.swo
+Cargo.lock
+
+# Git files
+.git
+.gitignore
+
+# Temporary files and directories
+*.tmp
+*.log
+*.bak
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.idea/
+.vscode/
+*.iml
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+build.txt
+run.txt
+
+# Test files (if not needed in the image)
+tests/
