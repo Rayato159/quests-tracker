@@ -22,3 +22,5 @@ diesel = { version = "2.2.4", features = [
 ] }
 dotenvy = "0.15.7"
 anyhow = "1.0.93"
+argon2 = "0.5.3"
+rand = "0.8.5"

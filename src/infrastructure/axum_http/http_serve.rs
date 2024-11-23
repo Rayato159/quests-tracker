@@ -52,7 +52,7 @@ pub async fn start(config: &DotEnvyConfig, db_pool: Arc<PgPoolSquad>) -> Result<
             routers::journey_ledger::routes(Arc::clone(&db_pool)),
         )
         .nest(
-            "/adventures",
+            "/adventurers",
             routers::adventures::routes(Arc::clone(&db_pool)),
         )
         .nest(

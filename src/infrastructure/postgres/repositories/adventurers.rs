@@ -2,8 +2,10 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use axum::async_trait;
+use diesel::{insert_into, RunQueryDsl};
 
 use crate::domain::repositories::adventurers::AdventurersRepository;
+use crate::infrastructure::postgres::schema::adventurers;
 use crate::{
     domain::entities::adventurers::RegisterAdventurerEntity,
     infrastructure::postgres::postgres_connector::PgPoolSquad,
@@ -21,7 +23,14 @@ impl AdventurersPostgres {
 
 #[async_trait]
 impl AdventurersRepository for AdventurersPostgres {
-    async fn register(&self, register_adventurer_entity: RegisterAdventurerEntity) -> Result<()> {
-        panic!("Not implemented")
+    async fn register(&self, register_adventurer_entity: RegisterAdventurerEntity) -> Result<i32> {
+        let mut conn = Arc::clone(&self.db_pool).get()?;
+
+        let result = insert_into(adventurers::table)
+            .values(&register_adventurer_entity)
+            .returning(adventurers::id)
+            .get_result::<i32>(&mut conn)?;
+
+        Ok(result)
     }
 }
