@@ -49,5 +49,8 @@ pub async fn board_checking<T>(
 where
     T: QuestViewingRepository + Send + Sync,
 {
-    (StatusCode::OK, "Board Checking").into_response()
+    match quest_viewing_use_case.board_checking(&filter).await {
+        Ok(quest_models) => (StatusCode::OK, Json(quest_models)).into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+    }
 }

@@ -6,12 +6,8 @@ use diesel::prelude::*;
 
 use crate::{
     domain::{
-        entities::quests::QuestEntity,
-        repositories::quest_viewing::QuestViewingRepository,
-        value_objects::{
-            board_checking_filter::BoardCheckingFilter,
-            quest_adventurer_junction::QuestAdventurerJunction,
-        },
+        entities::quests::QuestEntity, repositories::quest_viewing::QuestViewingRepository,
+        value_objects::board_checking_filter::BoardCheckingFilter,
     },
     infrastructure::postgres::{
         postgres_connector::PgPoolSquad,
@@ -44,7 +40,25 @@ impl QuestViewingRepository for QuestViewingPostgres {
     }
 
     async fn board_checking(&self, filter: &BoardCheckingFilter) -> Result<Vec<QuestEntity>> {
-        panic!("Not implemented");
+        let mut conn = Arc::clone(&self.db_pool).get()?;
+
+        let mut query = quests::table
+            .filter(quests::deleted_at.is_null())
+            .into_boxed();
+
+        if let Some(status) = &filter.status {
+            query = query.filter(quests::status.eq(status.to_string()));
+        };
+
+        if let Some(name) = &filter.name {
+            query = query.filter(quests::name.ilike(format!("%{}%", name)));
+        }
+
+        let results = query
+            .select(QuestEntity::as_select())
+            .load::<QuestEntity>(&mut conn)?;
+
+        Ok(results)
     }
 
     async fn adventurers_counting_by_quest_id(&self, quest_id: i32) -> Result<i64> {

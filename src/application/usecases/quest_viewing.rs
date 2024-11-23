@@ -47,6 +47,22 @@ where
     }
 
     pub async fn board_checking(&self, filter: &BoardCheckingFilter) -> Result<Vec<QuestModel>> {
-        panic!("Not implemented");
+        let results = self.quest_viewing_repository.board_checking(filter).await?;
+
+        let quests_model = results
+            .into_iter()
+            .map(|q| QuestModel {
+                id: q.id,
+                name: q.name,
+                description: q.description,
+                status: q.status,
+                guild_commander_id: q.guild_commander_id,
+                adventurer_count: 0,
+                created_at: q.created_at,
+                updated_at: q.updated_at,
+            })
+            .collect::<Vec<QuestModel>>();
+
+        Ok(quests_model)
     }
 }
