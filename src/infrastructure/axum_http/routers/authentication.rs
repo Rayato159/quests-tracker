@@ -1,6 +1,14 @@
 use std::sync::Arc;
 
-use axum::{extract::State, http::StatusCode, response::IntoResponse, routing::post, Json, Router};
+use axum::{
+    extract::State,
+    http::{header, HeaderMap, HeaderValue, StatusCode},
+    response::IntoResponse,
+    routing::post,
+    Json, Router,
+};
+use axum_extra::extract::cookie::{Cookie, CookieJar};
+use cookie::time::Duration;
 
 use crate::{
     application::usecases::authentication::AuthenticationUseCase,
@@ -32,11 +40,11 @@ pub fn routes(
     );
 
     Router::new()
-        .route("/adventurer/login", post(adventurer_login))
-        .route("/adventurer/refresh-token", post(adventurer_refresh_token))
-        .route("/guild-commander/login", post(guild_commander_login))
+        .route("/adventurers/login", post(adventurer_login))
+        .route("/adventurers/refresh-token", post(adventurer_refresh_token))
+        .route("/guild-commanders/login", post(guild_commander_login))
         .route(
-            "/guild-commander/refresh-token",
+            "/guild-commanders/refresh-token",
             post(guild_commander_refresh_token),
         )
         .with_state(Arc::new(authentication_use_case))
@@ -51,26 +59,92 @@ where
     T2: GuildCommandersRepository + Send + Sync,
 {
     match authentication_use_case.adventurer_login(login_model).await {
-        Ok(passport) => (StatusCode::OK, Json(passport)).into_response(),
+        Ok(passport) => {
+            let mut act_cookie = Cookie::build(("act", passport.access_token.clone()))
+                .path("/")
+                .same_site(cookie::SameSite::Lax)
+                .http_only(true)
+                .max_age(Duration::days(14));
+
+            let mut rft_cookie = Cookie::build(("rft", passport.refresh_token.clone()))
+                .path("/")
+                .same_site(cookie::SameSite::Lax)
+                .http_only(true)
+                .max_age(Duration::days(14));
+
+            if authentication_use_case.jwt_config.is_secure {
+                rft_cookie = rft_cookie.secure(true);
+                act_cookie = act_cookie.secure(true);
+            }
+
+            let mut headers = HeaderMap::new();
+            headers.append(
+                header::SET_COOKIE,
+                HeaderValue::from_str(&act_cookie.to_string()).unwrap(),
+            );
+            headers.append(
+                header::SET_COOKIE,
+                HeaderValue::from_str(&rft_cookie.to_string()).unwrap(),
+            );
+
+            (StatusCode::OK, headers, "Login successfully").into_response()
+        }
         Err(e) => (StatusCode::UNAUTHORIZED, e.to_string()).into_response(),
     }
 }
 
 pub async fn adventurer_refresh_token<T1, T2>(
     State(authentication_use_case): State<Arc<AuthenticationUseCase<T1, T2>>>,
-    Json(refresh_token): Json<String>,
+    jar: CookieJar,
 ) -> impl IntoResponse
 where
     T1: AdventurersRepository + Send + Sync,
     T2: GuildCommandersRepository + Send + Sync,
 {
-    match authentication_use_case
-        .adventurer_refresh_token(refresh_token)
-        .await
-    {
-        Ok(passport) => (StatusCode::OK, Json(passport)).into_response(),
-        Err(e) => (StatusCode::UNAUTHORIZED, e.to_string()).into_response(),
+    if let Some(rft) = jar.get("rft") {
+        let refresh_token = rft.value().to_string();
+
+        let response = match authentication_use_case
+            .adventurer_refresh_token(refresh_token)
+            .await
+        {
+            Ok(passport) => {
+                let mut act_cookie = Cookie::build(("act", passport.access_token.clone()))
+                    .path("/")
+                    .same_site(cookie::SameSite::Lax)
+                    .http_only(true)
+                    .max_age(Duration::days(14));
+
+                let mut rft_cookie = Cookie::build(("rft", passport.refresh_token.clone()))
+                    .path("/")
+                    .same_site(cookie::SameSite::Lax)
+                    .http_only(true)
+                    .max_age(Duration::days(14));
+
+                if authentication_use_case.jwt_config.is_secure {
+                    rft_cookie = rft_cookie.secure(true);
+                    act_cookie = act_cookie.secure(true);
+                }
+
+                let mut headers = HeaderMap::new();
+                headers.append(
+                    header::SET_COOKIE,
+                    HeaderValue::from_str(&act_cookie.to_string()).unwrap(),
+                );
+                headers.append(
+                    header::SET_COOKIE,
+                    HeaderValue::from_str(&rft_cookie.to_string()).unwrap(),
+                );
+
+                (StatusCode::OK, headers, "Refresh token successfully").into_response()
+            }
+            Err(e) => (StatusCode::UNAUTHORIZED, e.to_string()).into_response(),
+        };
+
+        return response;
     }
+
+    (StatusCode::BAD_REQUEST, "Refresh token not found").into_response()
 }
 
 pub async fn guild_commander_login<T1, T2>(
@@ -85,24 +159,90 @@ where
         .guild_commander_login(login_model)
         .await
     {
-        Ok(passport) => (StatusCode::OK, Json(passport)).into_response(),
+        Ok(passport) => {
+            let mut act_cookie = Cookie::build(("act", passport.access_token.clone()))
+                .path("/")
+                .same_site(cookie::SameSite::Lax)
+                .http_only(true)
+                .max_age(Duration::days(14));
+
+            let mut rft_cookie = Cookie::build(("rft", passport.refresh_token.clone()))
+                .path("/")
+                .same_site(cookie::SameSite::Lax)
+                .http_only(true)
+                .max_age(Duration::days(14));
+
+            if authentication_use_case.jwt_config.is_secure {
+                rft_cookie = rft_cookie.secure(true);
+                act_cookie = act_cookie.secure(true);
+            }
+
+            let mut headers = HeaderMap::new();
+            headers.append(
+                header::SET_COOKIE,
+                HeaderValue::from_str(&act_cookie.to_string()).unwrap(),
+            );
+            headers.append(
+                header::SET_COOKIE,
+                HeaderValue::from_str(&rft_cookie.to_string()).unwrap(),
+            );
+
+            (StatusCode::OK, headers, "Login successfully").into_response()
+        }
         Err(e) => (StatusCode::UNAUTHORIZED, e.to_string()).into_response(),
     }
 }
 
 pub async fn guild_commander_refresh_token<T1, T2>(
     State(authentication_use_case): State<Arc<AuthenticationUseCase<T1, T2>>>,
-    Json(refresh_token): Json<String>,
+    jar: CookieJar,
 ) -> impl IntoResponse
 where
     T1: AdventurersRepository + Send + Sync,
     T2: GuildCommandersRepository + Send + Sync,
 {
-    match authentication_use_case
-        .guild_commander_refresh_token(refresh_token)
-        .await
-    {
-        Ok(passport) => (StatusCode::OK, Json(passport)).into_response(),
-        Err(e) => (StatusCode::UNAUTHORIZED, e.to_string()).into_response(),
+    if let Some(rft) = jar.get("rft") {
+        let refresh_token = rft.value().to_string();
+
+        let response = match authentication_use_case
+            .guild_commander_refresh_token(refresh_token)
+            .await
+        {
+            Ok(passport) => {
+                let mut act_cookie = Cookie::build(("act", passport.access_token.clone()))
+                    .path("/")
+                    .same_site(cookie::SameSite::Lax)
+                    .http_only(true)
+                    .max_age(Duration::days(14));
+
+                let mut rft_cookie = Cookie::build(("rft", passport.refresh_token.clone()))
+                    .path("/")
+                    .same_site(cookie::SameSite::Lax)
+                    .http_only(true)
+                    .max_age(Duration::days(14));
+
+                if authentication_use_case.jwt_config.is_secure {
+                    rft_cookie = rft_cookie.secure(true);
+                    act_cookie = act_cookie.secure(true);
+                }
+
+                let mut headers = HeaderMap::new();
+                headers.append(
+                    header::SET_COOKIE,
+                    HeaderValue::from_str(&act_cookie.to_string()).unwrap(),
+                );
+                headers.append(
+                    header::SET_COOKIE,
+                    HeaderValue::from_str(&rft_cookie.to_string()).unwrap(),
+                );
+
+                (StatusCode::OK, headers, "Refresh token successfully").into_response()
+            }
+            Err(e) => (StatusCode::UNAUTHORIZED, e.to_string()).into_response(),
+        };
+
+        return response;
     }
+
+    (StatusCode::BAD_REQUEST, "Refresh token not found").into_response()
 }

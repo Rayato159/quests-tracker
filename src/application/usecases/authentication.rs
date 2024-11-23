@@ -25,7 +25,7 @@ where
 {
     adventurers_repository: Arc<T1>,
     guild_commanders_repository: Arc<T2>,
-    jwt_config: Arc<config_model::JwtAuthentication>,
+    pub jwt_config: Arc<config_model::JwtAuthentication>,
 }
 
 impl<T1, T2> AuthenticationUseCase<T1, T2>
@@ -176,14 +176,14 @@ where
         let access_token_claims = Claims {
             sub: claims.sub.clone(),
             role: Roles::GuildCommander,
-            exp: claims.exp,
+            exp: (Utc::now() + Duration::days(1)).timestamp() as usize,
             iat: Utc::now().timestamp() as usize,
         };
 
         let refresh_token_claims = Claims {
             sub: claims.sub,
             role: Roles::GuildCommander,
-            exp: (Utc::now() + Duration::days(7)).timestamp() as usize,
+            exp: claims.exp,
             iat: Utc::now().timestamp() as usize,
         };
 

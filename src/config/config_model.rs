@@ -26,4 +26,5 @@ pub struct JwtAuthentication {
     pub adventurer_refresh_secret: String,
     pub guild_commander_secret: String,
     pub guild_commander_refresh_secret: String,
+    pub is_secure: bool,
 }

@@ -40,6 +40,7 @@ pub fn load() -> Result<DotEnvyConfig> {
             .expect("JWT_GUILD_COMMANDER_SECRET is invalid"),
         guild_commander_refresh_secret: std::env::var("JWT_GUILD_COMMANDER_REFRESH_SECRET")
             .expect("JWT_GUILD_COMMANDER_REFRESH_SECRET is invalid"),
+        is_secure: if stage == Stage::Local { false } else { true },
     };
 
     Ok(DotEnvyConfig {
