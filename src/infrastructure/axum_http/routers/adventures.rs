@@ -39,7 +39,11 @@ where
         .register(register_adventurer_model)
         .await
     {
-        Ok(adventurer_id) => (StatusCode::CREATED, Json(adventurer_id)).into_response(),
+        Ok(adventurer_id) => (
+            StatusCode::CREATED,
+            format!("Register adventurer id: {} successfully", adventurer_id),
+        )
+            .into_response(),
         Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
     }
 }
