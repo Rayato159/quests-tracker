@@ -3,12 +3,8 @@ use std::sync::Arc;
 use anyhow::Result;
 
 use crate::domain::{
-    entities::quests::{AddQuestEntity, EditQuestEntity},
     repositories::{quest_ops::QuestOpsRepository, quest_viewing::QuestViewingRepository},
-    value_objects::{
-        quest_model::{AddQuestModel, EditQuestModel},
-        quest_statuses::QuestStatuses,
-    },
+    value_objects::quest_model::{AddQuestModel, EditQuestModel},
 };
 
 pub struct QuestOpsUseCase<T1, T2>
@@ -33,14 +29,7 @@ where
     }
 
     pub async fn add(&self, add_quest_model: AddQuestModel) -> Result<i32> {
-        let insert_quset_entity = AddQuestEntity {
-            name: add_quest_model.name,
-            description: add_quest_model.description,
-            guild_commander_id: add_quest_model.guild_commander_id,
-            status: QuestStatuses::Open.to_string(),
-            created_at: chrono::Utc::now().naive_utc(),
-            updated_at: chrono::Utc::now().naive_utc(),
-        };
+        let insert_quset_entity = add_quest_model.to_entity();
 
         let result = self.quest_ops_repository.add(insert_quset_entity).await?;
 
@@ -61,12 +50,7 @@ where
         }
 
         // Update quest
-        let edit_quest_entity = EditQuestEntity {
-            name: edit_quest_model.name,
-            description: edit_quest_model.description,
-            guild_commander_id: edit_quest_model.guild_commander_id,
-            updated_at: chrono::Utc::now().naive_utc(),
-        };
+        let edit_quest_entity = edit_quest_model.to_entity();
 
         let result = self
             .quest_ops_repository

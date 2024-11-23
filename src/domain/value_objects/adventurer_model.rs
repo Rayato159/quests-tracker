@@ -9,7 +9,7 @@ pub struct RegisterAdventurerModel {
 }
 
 impl RegisterAdventurerModel {
-    pub fn to_register_entity(&self) -> RegisterAdventurerEntity {
+    pub fn to_entity(&self) -> RegisterAdventurerEntity {
         RegisterAdventurerEntity {
             username: self.username.clone(),
             password: self.password.clone(),

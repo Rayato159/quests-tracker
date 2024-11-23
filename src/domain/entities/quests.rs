@@ -1,7 +1,9 @@
 use chrono::NaiveDateTime;
 use diesel::prelude::*;
 
-use crate::infrastructure::postgres::schema::quests;
+use crate::{
+    domain::value_objects::quest_model::QuestModel, infrastructure::postgres::schema::quests,
+};
 
 #[derive(Debug, Clone, Identifiable, Selectable, Queryable)]
 #[diesel(table_name = quests)]
@@ -13,6 +15,21 @@ pub struct QuestEntity {
     pub guild_commander_id: i32,
     pub created_at: Option<NaiveDateTime>,
     pub updated_at: Option<NaiveDateTime>,
+}
+
+impl QuestEntity {
+    pub fn to_model(&self, adventurer_count: i64) -> QuestModel {
+        QuestModel {
+            id: self.id,
+            name: self.name.clone(),
+            description: self.description.clone(),
+            status: self.status.clone(),
+            guild_commander_id: self.guild_commander_id,
+            adventurer_count,
+            created_at: self.created_at,
+            updated_at: self.updated_at,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Insertable, Queryable)]

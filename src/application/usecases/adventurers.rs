@@ -41,7 +41,7 @@ where
 
         register_adventurer_model.password = hashed_password;
 
-        let register_entity = register_adventurer_model.to_register_entity();
+        let register_entity = register_adventurer_model.to_entity();
 
         let adventurer_id = self
             .adventurers_repository

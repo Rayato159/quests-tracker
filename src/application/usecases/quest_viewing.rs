@@ -25,23 +25,14 @@ where
     }
 
     pub async fn view_details(&self, quest_id: i32) -> Result<QuestModel> {
-        let quest = self.quest_viewing_repository.view_details(quest_id).await?;
+        let result = self.quest_viewing_repository.view_details(quest_id).await?;
 
         let adventurers_count = self
             .quest_viewing_repository
-            .adventurers_counting_by_quest_id(quest.id)
+            .adventurers_counting_by_quest_id(result.id)
             .await?;
 
-        let quest_model = QuestModel {
-            id: quest.id,
-            name: quest.name,
-            description: quest.description,
-            status: quest.status,
-            guild_commander_id: quest.guild_commander_id,
-            adventurer_count: adventurers_count,
-            created_at: quest.created_at,
-            updated_at: quest.updated_at,
-        };
+        let quest_model = result.to_model(adventurers_count);
 
         Ok(quest_model)
     }
@@ -49,19 +40,17 @@ where
     pub async fn board_checking(&self, filter: &BoardCheckingFilter) -> Result<Vec<QuestModel>> {
         let results = self.quest_viewing_repository.board_checking(filter).await?;
 
-        let quests_model = results
-            .into_iter()
-            .map(|q| QuestModel {
-                id: q.id,
-                name: q.name,
-                description: q.description,
-                status: q.status,
-                guild_commander_id: q.guild_commander_id,
-                adventurer_count: 0,
-                created_at: q.created_at,
-                updated_at: q.updated_at,
-            })
-            .collect::<Vec<QuestModel>>();
+        let mut quests_model = Vec::new();
+
+        for result in results.into_iter() {
+            let adventurers_count = self
+                .quest_viewing_repository
+                .adventurers_counting_by_quest_id(result.id)
+                .await
+                .unwrap_or(0);
+
+            quests_model.push(result.to_model(adventurers_count));
+        }
 
         Ok(quests_model)
     }
