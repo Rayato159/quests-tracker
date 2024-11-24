@@ -1,0 +1,1351 @@
+{
+	"info": {
+		"_postman_id": "dbe03429-7901-4b7b-ad4d-e976cd2b4b88",
+		"name": "quest_tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18192292"
+	},
+	"item": [
+		{
+			"name": "adventurers",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"HunterZZZ\",\r\n    \"password\": \"Password!1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/adventurers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"adventurers"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 - created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"HunterZZZ\",\r\n    \"password\": \"Password!1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/adventurers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"adventurers"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "38"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 11:09:04 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Register adventurer id: 4 successfully"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "guild commanders",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Admin2\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/guild-commanders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"guild-commanders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 - created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"HunterXXX\",\r\n    \"password\": \"Password!1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/guild-commanders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"guild-commanders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "43"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 11:08:55 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Register guild_commander id: 2 successfully"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "adventurer login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"HunterXXX\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/authentication/adventurers/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"authentication",
+								"adventurers",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"HunterXXX\",\r\n    \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/authentication/adventurers/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"authentication",
+										"adventurers",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "set-cookie",
+									"value": "act=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZSI6IkFkdmVudHVyZXIiLCJleHAiOjE3MzI0NjA5MTAsImlhdCI6MTczMjM3NDUxMH0.hEwX7mK0d4ncavCTiNfFSIuBO_llRMeNHTk1uRmzpwM; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "set-cookie",
+									"value": "rft=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZSI6IkFkdmVudHVyZXIiLCJleHAiOjE3MzI5NzkzMTAsImlhdCI6MTczMjM3NDUxMH0.cgIcm2zFaz2mPBHx9UAjRI3JgZmQbF5xgkauuHJPIi0; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "content-length",
+									"value": "18"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 15:08:30 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Login successfully"
+						}
+					]
+				},
+				{
+					"name": "adventurers refresh token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/authentication/adventurers/refresh-token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"authentication",
+								"adventurers",
+								"refresh-token"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/authentication/adventurers/refresh-token",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"authentication",
+										"adventurers",
+										"refresh-token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "set-cookie",
+									"value": "act=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZSI6IkFkdmVudHVyZXIiLCJleHAiOjE3MzI0NjM4NjksImlhdCI6MTczMjM3NzQ2OX0.7CAsK5Z-PZDOfDN6mfEqSlIPhPYAYivcIHUqLjzOghs; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "set-cookie",
+									"value": "rft=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicm9sZSI6IkFkdmVudHVyZXIiLCJleHAiOjE3MzI5ODIyNDUsImlhdCI6MTczMjM3NzQ2OX0.GaPty6kaAFicPiNaqmHjehGx15zBc0rVfRlfOAKLCeI; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "content-length",
+									"value": "26"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 15:57:49 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Refresh token successfully"
+						}
+					]
+				},
+				{
+					"name": "guild commander login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Admin2\",\r\n    \"password\": \"Password!1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/authentication/guild-commanders/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"authentication",
+								"guild-commanders",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Admin2\",\r\n    \"password\": \"Password!1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/authentication/guild-commanders/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"authentication",
+										"guild-commanders",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "set-cookie",
+									"value": "act=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6Ikd1aWxkQ29tbWFuZGVyIiwiZXhwIjoxNzMyNDYwOTM4LCJpYXQiOjE3MzIzNzQ1Mzh9.HJSRO26Ez9IOPeC8NIkv1iRm2okoYKfR3IdqSMa68j4; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "set-cookie",
+									"value": "rft=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6Ikd1aWxkQ29tbWFuZGVyIiwiZXhwIjoxNzMyOTc5MzM4LCJpYXQiOjE3MzIzNzQ1Mzh9.HDdpkORFLql5MtOFFVcKrd-TLg3G-NHSmkrGNqkLvl8; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "content-length",
+									"value": "18"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 15:08:57 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Login successfully"
+						}
+					]
+				},
+				{
+					"name": "guild commander refresh token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/authentication/guild-commanders/refresh-token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"authentication",
+								"guild-commanders",
+								"refresh-token"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/authentication/guild-commanders/refresh-token",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"authentication",
+										"guild-commanders",
+										"refresh-token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "set-cookie",
+									"value": "act=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6Ikd1aWxkQ29tbWFuZGVyIiwiZXhwIjoxNzMyOTgyMDI4LCJpYXQiOjE3MzIzNzcyODl9.2v_vxafab4QJIiiDQ32w6xH8xJm6kX4UIM-3Ktl5mgA; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "set-cookie",
+									"value": "rft=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1Iiwicm9sZSI6Ikd1aWxkQ29tbWFuZGVyIiwiZXhwIjoxNzMyOTgyMDg5LCJpYXQiOjE3MzIzNzcyODl9.KW_91u16VUdWQbiGCXkBWHc8MPrix366bpMsQwecIXE; HttpOnly; SameSite=Lax; Path=/; Max-Age=1209600"
+								},
+								{
+									"key": "content-length",
+									"value": "26"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 15:54:49 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Refresh token successfully"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "quest-ops",
+			"item": [
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Retrieve the Lost Artifact\",\r\n    \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\r\n    \"guild_commander_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quest-ops",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quest-ops"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "201 - created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Retrieve the Lost Artifact\",\r\n    \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\r\n    \"guild_commander_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/quest-ops",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"quest-ops"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "28"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 09:16:29 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Add quest success with id: 2"
+						}
+					]
+				},
+				{
+					"name": "edit",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Retrieve the Lost Artifact Update!!!\",\r\n    \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\r\n    \"guild_commander_id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quest-ops/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quest-ops",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Retrieve the Lost Artifact Update!!!\",\r\n    \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\r\n    \"guild_commander_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/quest-ops/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"quest-ops",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "29"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 09:16:53 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Edit quest success with id: 2"
+						}
+					]
+				},
+				{
+					"name": "remove",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/quest-ops/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quest-ops",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/quest-ops/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"quest-ops",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "31"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 09:17:00 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Remove quest success with id: 1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "quest viewing",
+			"item": [
+				{
+					"name": "view details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/quest-viewing/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quest-viewing",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/quest-viewing/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"quest-viewing",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "393"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 10:47:56 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Retrieve the Lost Artifact Update!!!\",\n    \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\n    \"status\": \"Completed\",\n    \"guild_commander_id\": 1,\n    \"adventurers_count\": 2,\n    \"created_at\": \"2024-11-22T20:04:49.845089\",\n    \"updated_at\": \"2024-11-22T20:53:50.597518\"\n}"
+						}
+					]
+				},
+				{
+					"name": "board checking",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/quest-viewing/board-checking",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quest-viewing",
+								"board-checking"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "hello",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "Open",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/quest-viewing/board-checking",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"quest-viewing",
+										"board-checking"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "hello",
+											"disabled": true
+										},
+										{
+											"key": "status",
+											"value": "Open",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "content-length",
+									"value": "1173"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 10:47:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"name\": \"Retrieve the Lost Artifact Update!!!\",\n        \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\n        \"status\": \"Open\",\n        \"guild_commander_id\": 1,\n        \"adventurers_count\": 0,\n        \"created_at\": \"2024-11-23T09:16:29.319121\",\n        \"updated_at\": \"2024-11-23T09:16:53.282816\"\n    },\n    {\n        \"id\": 1,\n        \"name\": \"Retrieve the Lost Artifact Update!!!\",\n        \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\n        \"status\": \"Completed\",\n        \"guild_commander_id\": 1,\n        \"adventurers_count\": 2,\n        \"created_at\": \"2024-11-22T20:04:49.845089\",\n        \"updated_at\": \"2024-11-22T20:53:50.597518\"\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Retrieve the Lost Artifact Update!!!\",\n        \"description\": \"The guild has lost an ancient artifact during a recent battle. Your mission is to venture into the Forbidden Forest, locate the artifact, and return it safely to the guild.\",\n        \"status\": \"Open\",\n        \"guild_commander_id\": 1,\n        \"adventurers_count\": 0,\n        \"created_at\": \"2024-11-23T10:29:19.690690\",\n        \"updated_at\": \"2024-11-23T10:29:26.834098\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "journey ledger",
+			"item": [
+				{
+					"name": "in journey",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/journey-ledger/in-journey/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"journey-ledger",
+								"in-journey",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/journey-ledger/in-journey/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"journey-ledger",
+										"in-journey",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "28"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 09:17:23 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Quest id: 1 is now InJourney"
+						}
+					]
+				},
+				{
+					"name": "to completed",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/journey-ledger/to-completed/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"journey-ledger",
+								"to-completed",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/journey-ledger/to-completed/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"journey-ledger",
+										"to-completed",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "28"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 09:17:50 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Quest id: 1 is now Completed"
+						}
+					]
+				},
+				{
+					"name": "to failed",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/journey-ledger/to-failed/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"journey-ledger",
+								"to-failed",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/journey-ledger/to-failed/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"journey-ledger",
+										"to-failed",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "25"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 09:17:33 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Quest id: 1 is now Failed"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "crew switchboard",
+			"item": [
+				{
+					"name": "join",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/crew-switchboard/join/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"crew-switchboard",
+								"join",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/crew-switchboard/join/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"crew-switchboard",
+										"join",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "40"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 11:51:45 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Adventurer id: 1, has joined quest id: 2"
+						}
+					]
+				},
+				{
+					"name": "leave",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"HunterXXX\",\r\n    \"password\": \"Password!1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/crew-switchboard/leave/:quest_id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"crew-switchboard",
+								"leave",
+								":quest_id"
+							],
+							"variable": [
+								{
+									"key": "quest_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 - ok",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"HunterXXX\",\r\n    \"password\": \"Password!1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/crew-switchboard/leave/:quest_id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"crew-switchboard",
+										"leave",
+										":quest_id"
+									],
+									"variable": [
+										{
+											"key": "quest_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "content-type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "content-length",
+									"value": "40"
+								},
+								{
+									"key": "date",
+									"value": "Sat, 23 Nov 2024 11:50:29 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "Adventurer id: 1, has leaved quest id: 2"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health-check",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"health-check"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200 - ok",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health-check",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health-check"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "content-type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "2"
+						},
+						{
+							"key": "date",
+							"value": "Fri, 22 Nov 2024 17:27:17 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "OK"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
