@@ -53,7 +53,6 @@ pub async fn start(config: Arc<DotEnvyConfig>, db_pool: Arc<PgPoolSquad>) -> Res
         .layer(TimeoutLayer::new(Duration::from_secs(
             config.server.timeout,
         )))
-        .layer(TraceLayer::new_for_http())
         .layer(RequestBodyLimitLayer::new(
             (config.server.body_limit * 1024 * 1024).try_into()?,
         ))
