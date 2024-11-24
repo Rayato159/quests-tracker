@@ -83,8 +83,10 @@ where
     pub async fn adventurers_refresh_token(&self, refresh_token: String) -> Result<Passport> {
         let secret_env = get_adventurers_secret_env()?;
 
-        let claims =
-            jwt_authentication::verify_token(secret_env.secret.clone(), refresh_token.clone())?;
+        let claims = jwt_authentication::verify_token(
+            secret_env.refresh_secret.clone(),
+            refresh_token.clone(),
+        )?;
 
         let access_token_claims = Claims {
             sub: claims.sub.clone(),
@@ -156,8 +158,10 @@ where
     pub async fn guild_commanders_refresh_token(&self, refresh_token: String) -> Result<Passport> {
         let secret_env = get_guild_commanders_secret_env()?;
 
-        let claims =
-            jwt_authentication::verify_token(secret_env.secret.clone(), refresh_token.clone())?;
+        let claims = jwt_authentication::verify_token(
+            secret_env.refresh_secret.clone(),
+            refresh_token.clone(),
+        )?;
 
         let access_token_claims = Claims {
             sub: claims.sub.clone(),
