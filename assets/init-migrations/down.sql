@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS quest_adventure_junction;
+DROP TABLE IF EXISTS quest_adventurer_junction;
 
 DROP TABLE IF EXISTS quests;
 
