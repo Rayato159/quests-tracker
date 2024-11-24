@@ -1,3 +1,4 @@
+-- Your SQL goes here
 CREATE TABLE quests (
     id SERIAL PRIMARY KEY,
     "name" VARCHAR(255) NOT NULL,
@@ -6,8 +7,7 @@ CREATE TABLE quests (
     guild_commander_id INTEGER NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     updated_at TIMESTAMP NOT NULL DEFAULT now(),
-    deleted_at TIMESTAMP;
-
+    deleted_at TIMESTAMP
 );
 
 CREATE TABLE adventurers (
@@ -38,7 +38,7 @@ ADD
     CONSTRAINT fk_guild_commander FOREIGN KEY (guild_commander_id) REFERENCES guild_commanders(id);
 
 ALTER TABLE
-    quest_adventure_junction
+    quest_adventurer_junction
 ADD
     CONSTRAINT fk_quest FOREIGN KEY (quest_id) REFERENCES quests(id),
 ADD
