@@ -57,40 +57,38 @@ Ready to level up? Follow these steps:
    cd quests-tracker
    ```
 
-2. **Install Dependencies**:
-   Make sure you have **Rust** and **PostgreSQL** installed.
-3. **Set Up Diesel**:
+2. **Set Up Diesel**:
 
    ```sh
    cargo install diesel_cli --no-default-features --features postgres
    ```
 
-4. **Set Up PostgreSQL on Podman**:
+3. **Set Up PostgreSQL on Podman**:
 
    ```sh
    podman run --name quests-tracker-db -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
    ```
 
-5. **Execute into The Postgres Container as Bash**
+4. **Execute into The Postgres Container as Bash**
 
    ```sh
    podman exec -it quests-tracker-db bash
    ```
 
-6. **Create a Database**:
+5. **Create a Database**:
 
    ```sh
    psql -U postgres -c "CREATE DATABASE quests_tracker_db;"
    ```
 
-7. **Run Migrations**:
+6. **Run Migrations**:
 
    ```sh
    diesel setup
    diesel migration run
    ```
 
-8. **Run the Server**:
+7. **Run the Server**:
    ```sh
    cargo run
    ```
