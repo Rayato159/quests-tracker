@@ -66,29 +66,17 @@ Ready to level up? Follow these steps:
 3. **Set Up PostgreSQL on Podman**:
 
    ```sh
-   podman run --name quests-tracker-db -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
+   podman run --name quests-tracker-db -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=quests_tracker_db -p 5432:5432 -d postgres:latest
    ```
 
-4. **Execute into The Postgres Container as Bash**
+4. **Run Migrations**:
 
    ```sh
-   podman exec -it quests-tracker-db bash
-   ```
-
-5. **Create a Database**:
-
-   ```sh
-   psql -U postgres -c "CREATE DATABASE quests_tracker_db;"
-   ```
-
-6. **Run Migrations**:
-
-   ```sh
-   diesel setup
    diesel migration run
    ```
 
-7. **Run the Server**:
+5. **Run the Server**:
+
    ```sh
    cargo run
    ```
