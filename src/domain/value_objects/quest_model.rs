@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::domain::entities::quests::{AddQuestEntity, EditQuestEntity};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct QuestModel {
     pub id: i32,
     pub name: String,

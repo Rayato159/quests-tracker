@@ -97,7 +97,7 @@ where
         &self,
         quest_id: i32,
         adventurer_id: i32,
-    ) -> Result<(), anyhow::Error> {
+    ) -> Result<()> {
         let tx = Arc::clone(&self.tx);
         let repo = Arc::clone(&self.crew_switchboard_repository);
 
