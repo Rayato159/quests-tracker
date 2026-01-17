@@ -1,4 +1,4 @@
-FROM rust:1.87-bullseye as builder
+FROM rust:1.92-bullseye as builder
 
 WORKDIR /usr/src/quests-tracker
 COPY . .

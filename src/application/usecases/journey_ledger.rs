@@ -13,8 +13,8 @@ use crate::domain::{
 
 pub struct JourneyLedgerUseCase<T1, T2>
 where
-    T1: JourneyLedgerRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
+    T1: JourneyLedgerRepository + Send + Sync + 'static,
+    T2: QuestViewingRepository + Send + Sync + 'static,
 {
     journey_ledger_repository: Arc<T1>,
     quest_viewing_repository: Arc<T2>,
@@ -22,8 +22,8 @@ where
 
 impl<T1, T2> JourneyLedgerUseCase<T1, T2>
 where
-    T1: JourneyLedgerRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
+    T1: JourneyLedgerRepository + Send + Sync + 'static,
+    T2: QuestViewingRepository + Send + Sync + 'static,
 {
     pub fn new(journey_ledger_repository: Arc<T1>, quest_viewing_repository: Arc<T2>) -> Self {
         Self {

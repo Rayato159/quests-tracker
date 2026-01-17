@@ -1,8 +1,8 @@
 use anyhow::Result;
-use axum::async_trait;
+use async_trait::async_trait;
 use diesel::{
-    r2d2::{ConnectionManager, PooledConnection},
     PgConnection,
+    r2d2::{ConnectionManager, PooledConnection},
 };
 use mockall::automock;
 

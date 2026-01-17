@@ -9,8 +9,8 @@ use crate::domain::{
 
 pub struct QuestOpsUseCase<T1, T2>
 where
-    T1: QuestOpsRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
+    T1: QuestOpsRepository + Send + Sync + 'static,
+    T2: QuestViewingRepository + Send + Sync + 'static,
 {
     quest_ops_repository: Arc<T1>,
     quest_viewing_repository: Arc<T2>,
@@ -18,8 +18,8 @@ where
 
 impl<T1, T2> QuestOpsUseCase<T1, T2>
 where
-    T1: QuestOpsRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
+    T1: QuestOpsRepository + Send + Sync + 'static,
+    T2: QuestViewingRepository + Send + Sync + 'static,
 {
     pub fn new(quest_ops_repository: Arc<T1>, quest_viewing_repository: Arc<T2>) -> Self {
         Self {

@@ -9,14 +9,14 @@ use crate::domain::{
 
 pub struct QuestViewingUseCase<T>
 where
-    T: QuestViewingRepository + Send + Sync,
+    T: QuestViewingRepository + Send + Sync + 'static,
 {
     quest_viewing_repository: Arc<T>,
 }
 
 impl<T> QuestViewingUseCase<T>
 where
-    T: QuestViewingRepository + Send + Sync,
+    T: QuestViewingRepository + Send + Sync + 'static,
 {
     pub fn new(quest_viewing_repository: Arc<T>) -> Self {
         Self {

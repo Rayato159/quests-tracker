@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use anyhow::Result;
-use axum::async_trait;
+use async_trait::async_trait;
 use diesel::prelude::*;
 
 use crate::{

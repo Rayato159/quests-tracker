@@ -20,8 +20,8 @@ use crate::{
 
 pub struct AuthenticationUseCase<T1, T2>
 where
-    T1: AdventurersRepository + Send + Sync,
-    T2: GuildCommandersRepository + Send + Sync,
+    T1: AdventurersRepository + Send + Sync + 'static,
+    T2: GuildCommandersRepository + Send + Sync + 'static,
 {
     adventurers_repository: Arc<T1>,
     guild_commanders_repository: Arc<T2>,
@@ -29,8 +29,8 @@ where
 
 impl<T1, T2> AuthenticationUseCase<T1, T2>
 where
-    T1: AdventurersRepository + Send + Sync,
-    T2: GuildCommandersRepository + Send + Sync,
+    T1: AdventurersRepository + Send + Sync + 'static,
+    T2: GuildCommandersRepository + Send + Sync + 'static,
 {
     pub fn new(adventurers_repository: Arc<T1>, guild_commanders_repository: Arc<T2>) -> Self {
         Self {

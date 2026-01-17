@@ -12,14 +12,14 @@ use crate::{
 
 pub struct AdventurersUseCase<T>
 where
-    T: AdventurersRepository + Send + Sync,
+    T: AdventurersRepository + Send + Sync + 'static,
 {
     adventurers_repository: Arc<T>,
 }
 
 impl<T> AdventurersUseCase<T>
 where
-    T: AdventurersRepository + Send + Sync,
+    T: AdventurersRepository + Send + Sync + 'static,
 {
     pub fn new(adventurers_repository: Arc<T>) -> Self {
         Self {

@@ -8,7 +8,7 @@ use crate::domain::{
         transaction_provider::TransactionProvider,
     },
     value_objects::{
-        quest_adventurer_junction::{QuestAdventurerJunction, MAX_ADVENTURERS_PER_QUEST},
+        quest_adventurer_junction::{MAX_ADVENTURERS_PER_QUEST, QuestAdventurerJunction},
         quest_statuses::QuestStatuses,
     },
 };
@@ -16,9 +16,9 @@ use crate::domain::{
 // T3 is just a placeholder for the transaction provider, not necessarily.
 pub struct CrewSwitchboardUseCase<T1, T2, T3>
 where
-    T1: CrewSwitchboardRepository + Send + Sync,
-    T2: QuestViewingRepository + Send + Sync,
-    T3: TransactionProvider + Send + Sync,
+    T1: CrewSwitchboardRepository + Send + Sync + 'static,
+    T2: QuestViewingRepository + Send + Sync + 'static,
+    T3: TransactionProvider + Send + Sync + 'static,
 {
     crew_switchboard_repository: Arc<T1>,
     quest_viewing_repository: Arc<T2>,
@@ -28,8 +28,8 @@ where
 impl<T1, T2, T3> CrewSwitchboardUseCase<T1, T2, T3>
 where
     T1: CrewSwitchboardRepository + Send + Sync + 'static,
-    T2: QuestViewingRepository + Send + Sync,
-    T3: TransactionProvider + Send + Sync,
+    T2: QuestViewingRepository + Send + Sync + 'static,
+    T3: TransactionProvider + Send + Sync + 'static,
 {
     pub fn new(
         crew_switchboard_repository: Arc<T1>,

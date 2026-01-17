@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
 use anyhow::Result;
-use axum::async_trait;
+use async_trait::async_trait;
 use diesel::prelude::*;
-use diesel::{insert_into, RunQueryDsl};
+use diesel::{RunQueryDsl, insert_into};
 
 use crate::domain::entities::adventurers::AdventurerEntity;
 use crate::domain::repositories::adventurers::AdventurersRepository;

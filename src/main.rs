@@ -2,11 +2,11 @@ use std::sync::Arc;
 
 use quests_tracker::{
     config::config_loader,
-    infrastructure::{axum_http::http_serve::start, postgres::postgres_connector},
+    infrastructure::{ntex_http::http_serve::start, postgres::postgres_connector},
 };
 use tracing::{error, info};
 
-#[tokio::main]
+#[ntex::main]
 async fn main() {
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::DEBUG)
